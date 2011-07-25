@@ -1,0 +1,13 @@
+
+-set_content_for :site_id, 'cap'
+
+-set_content_for :content do
+ %div.site
+  .title
+   %h1 CAP Journal
+  -@page_id = content_for :page_id
+  =render 'cap/nav'
+
+  = yield :content
+ -#%div.page= yield :content
+

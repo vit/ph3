@@ -1,0 +1,22 @@
+
+-content_for :page_title, 'Contacts'
+-content_for :page_id, 'contacts'
+
+-set_content_for :content do
+ .page
+  %h2 Contacts
+  .page-body
+   %p
+    %b ADDRESS OF THE IPACS SECRETARIAT:
+    %p
+     Prof. A. L. Fradkov, Institute for Problems of Mechanical Engineering
+     %br
+     61 Bolshoy ave. V.O., 199178, St. Petersburg, RUSSIA
+     %br
+     Tel: +7(812)321-4766, Fax: +7(812)321-4771
+     %br
+     E-mail:&nbsp;ipacs&nbsp;at&nbsp;physcon&nbsp;ru &nbsp;Web:
+     %a{:href => "http://physcon.ru/ipacs"} http://physcon.ru/ipacs/
+
+-render :file => 'ipacs/layout'
+

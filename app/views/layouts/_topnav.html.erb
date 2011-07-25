@@ -1,0 +1,26 @@
+<%
+	topnav = [
+		{id: 'ipacs', text: 'IPACS Home', url: 'http://ipacs.evarist.ru'},
+#		{id: 'coms', text: 'CoMS', url: 'http://ipacs.evarist.ru'},
+		{id: 'cap', text: 'CAP Journal', url: 'http://cap.evarist.ru'},
+		{id: 'lib', text: 'Library', url: 'http://lib2.evarist.ru'},
+#		{id: 'conf', text: 'Conferences', url: 'http://ipacs.evarist.ru'},
+#		{id: 'album', text: 'Album', url: 'http://ipacs.evarist.ru'}
+	]
+%>
+<div class='top'>
+<div class='nav'><ul>
+<% topnav.each do |elm| %>
+	<% if elm[:id]==@site_id %>
+		<li><a href="<%= elm[:url]%>" class="current"><strong><%= elm[:text] %></strong></a></li>
+	<% else %>
+		<li><a href="<%= elm[:url]%>"><%= elm[:text] %></a></li>
+	<% end %>
+<% end %>
+</ul>
+<!-- br style="clear:left"/ -->
+<div style="clear:left"></div>
+</div>
+<div style="clear:left"></div>
+</div>
+

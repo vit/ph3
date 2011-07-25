@@ -1,0 +1,12 @@
+
+-set_content_for :site_id, 'lib'
+
+-set_content_for :content do
+ .site
+  .title
+   %h1 IPACS Electronic library
+  -@page_id = content_for :page_id
+
+  = yield :content
+
+

@@ -1,0 +1,23 @@
+<%
+	topnav = [
+	#	{id: 'about', text: 'About IPACS', url: '/'},
+		{id: 'index', text: 'Main page', url: '/'},
+		{id: 'about', text: 'About IPACS', url: '/about'},
+		{id: 'regulations', text: 'Regulations', url: '/regulations'},
+		{id: 'membership', text: 'Membership', url: '/membership'},
+		{id: 'officials', text: 'IPACS Officials', url: '/officials'},
+		{id: 'contacts', text: 'Contacts', url: '/contacts'}
+	]
+%>
+<div class='nav'>
+	<ul>
+<% topnav.each do |elm| %>
+	<% if elm[:id]==@page_id %>
+		<li><a href="<%= elm[:url]%>" class="current"><strong><%= elm[:text] %></strong></a></li>
+	<% else %>
+		<li><a href="<%= elm[:url]%>"><%= elm[:text] %></a></li>
+	<% end %>
+<% end %>
+	</ul>
+</div>
+

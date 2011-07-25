@@ -1,0 +1,39 @@
+
+-content_for :page_title, 'IPACS Electronic Library'
+-content_for :page_id, 'index'
+
+-set_content_for :content do
+ .page
+  %h2 The IPACS Library
+  .page-body
+   %table{width: "100%", cellpadding: 3, cellspacing: 3}
+    %tr
+     %td{align: 'center'}
+      %a{href: "?item=1"} OPEN LIBRARY &mdash; READING
+     %td{align: 'center'}
+      %a{href: "?item=2"} CLOSED LIBRARY &mdash; READING
+    %tr
+     %td{align: 'center'}
+      %a{href: "http://coms.physcon.ru/conf/3/"} OPEN LIBRARY &mdash; SUBMISSION
+     %td{align: 'center'}
+      %a{href: "http://coms.physcon.ru/conf/8/"} CLOSED LIBRARY &mdash; SUBMISSION
+   %p
+    The IPACS Library consists of two parts:
+    %ul
+     %li Open Library, freely available to anyone;
+     %li Closed Library, available only to the IPACS members.
+   %p
+    Open Library comprises the papers submitted (and accepted) to the Open Access IPACS Archive and  the papers submitted by the organizers of IPACS sponsored or IPACS co-sponsored conferences.
+    Such an archival system will keep all features of open access peer reviewed publications. Everyone can submit a paper to Open Archive, but it will be published only upon receipt of two positive reviews from Society members or external experts.
+    The published papers are searchable, citable, and individually downloadable without cost to the readers, providing archival-quality recognition.
+   %p To submit your paper to the Open Archive go to <a href="http://coms.physcon.ru/conf/3/">http://coms.physcon.ru/conf/3/</a> and enter CoMS to find further instructions.
+   %p The Closed Library contains the papers which cannot be made public because of copyright restrictions. It consists of the conference papers submitted by conference organizers and of the Closed Archive – set of the papers (perhaps, previously published) submitted by IPACS members wishing to share their information with fellow colleagues. Any IPACS member will be able to view the papers of the closed library from his/her virtual office in the CoMS.
+   %p If you are a member of the IPACS, log in and go to <a href="?item=2">CLOSED LIBRARY &mdash; READING</a> to get access to all IPACS Closed Library materials.
+   %p If you are NOT a member of the IPACS yet, go to <a href="?item=1">OPEN LIBRARY &mdash; READING</a> to see all published papers.
+   %p To learn more about IPACS Membership, go to the page <a href="http://physcon.ru/ipacs/membership.html">IPACS Membership</a>.
+   %p Comments and suggestions can be sent to ipacs_at_physcon.ru 
+
+
+-render :file => 'lib/layout'
+
+
