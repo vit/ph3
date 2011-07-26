@@ -18,13 +18,20 @@ $textcolor2: rgb(75,0,130); //indigo
 //$textcolor2: rgb(98,49,0);
 $textcolor: rgb(0,0,0);
 //$textcolor: rgb(130,75,0);
+@mixin font1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+@mixin font2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
 body.any {
 	margin: 0 5% 0 5%;
 	background-color: $bgcolor;
 	color: $textcolor;
+	@include font1;
 	font: {
 		size: 12pt;
-		family: Verdana, Arial, Helvetica, sans-serif;
+//		family: Verdana, Arial, Helvetica, sans-serif;
 	//	family: Georgia, "Times New Roman", Times, serif;
 	}
 	.top {
@@ -61,8 +68,10 @@ body.any {
 	.site {
 		.title {
 			border-bottom: 2px solid $textcolor2;
-			margin-bottom: 0.4em;
+		//	margin-bottom: 0.4em;
+			margin-bottom: 0.5em;
 			padding: 0.3em 0;
+		//	padding: 0.4em 0;
 			h1 {
 			//	margin: 0.3em 0;
 				margin: 0 0;
@@ -78,11 +87,19 @@ body.any {
 			//	color: $textcolor2;
 			}
 			.page-body {
+				//	-moz-column-count: 2;
+				//	-moz-column-gap: 1em;
+				//	-webkit-column-count: 2;
+				//	-webkit-column-gap: 1em;
+				//	column-count: 2;
+				//	column-gap: 1em;
+				//	line-height: 1.5em;
+
 				//margin: 0 0;
 				p {
 				//	margin: 0.4em 0 0.6em 0;
-					margin: 0 0 0 0;
-				//	margin: 0 0 0.3em 0;
+			//		margin: 0 0 0 0;
+					margin: 0.6em 0 0.6em 0;
 				//	padding: 1em 0 0em 0;
 				//	border: 1px solid red;
 				//	margin: 0;
@@ -95,7 +112,7 @@ body.any {
 				//	padding: 1em 0 0em 0;
 				//	border: 1px solid red;
 				//	margin: 0;
-					text-indent: 1.5em;
+			//		text-indent: 1.5em;
 				}
 			}
 		}
@@ -164,8 +181,10 @@ body.any {
 	//	border-radius: 1em 1em 0 0;
 	//	padding: 0 1em 0 1em;
 		border-top: 2px solid $textcolor2;
-		margin-top: 0.4em;
+		margin-top: 1em;
 		padding: 0.3em 0;
+	//	font-family: Georgia, "Times New Roman", Times, serif;
+		@include font2;
 		a {
 			color: $textcolor2;
 			text-decoration: none;
@@ -174,8 +193,8 @@ body.any {
 			text-decoration: underline;
 		}
 		.copy {
+			opacity: 0.6;
 			font: { size: 0.8em; }
-		//		float: left;
 		}
 	}
 }

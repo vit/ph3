@@ -1,0 +1,15 @@
+
+
+development:
+        mongo:
+                host: localhost
+                db_name: ph3_dev
+
+test:
+
+production:
+        mongo:
+                host: localhost
+                db_name: ph3
+
+
