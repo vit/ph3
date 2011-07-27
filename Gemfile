@@ -17,6 +17,9 @@ gem 'jquery-rails'
 # Use unicorn as the web server
 gem 'unicorn'
 gem 'haml'
+gem 'mongo'
+gem 'bson_ext'
+gem 'unicode_utils'
 
 # Deploy with Capistrano
 # gem 'capistrano'
