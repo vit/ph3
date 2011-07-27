@@ -6,4 +6,7 @@
 //
 // q = require jquery
 // q = require jquery_ujs
+//= require lib
 // q = require_tree .
+//
+
