@@ -1,5 +1,7 @@
 class RpcController < ApplicationController
-  def call
-  end
+	def call
+		puts request.body.read
+		render :json => {qwe: 'rty'}
+	end
 
 end

@@ -59,6 +59,8 @@ Ph3::Application.routes.draw do
 
 #  match "/:action" => 'home#index', :constraints => {:host => /^ipacs.*/} 
 
+  match "/rpc" => 'rpc#call'
+
   root :to => 'ipacs#index', :constraints => {:host => /^ipacs.*/}
   match "/:action" => 'ipacs', :constraints => {:host => /^ipacs.*/} 
 
@@ -67,8 +69,6 @@ Ph3::Application.routes.draw do
 
   root :to => 'lib#index', :constraints => {:host => /^lib.*/}
   match "/:action" => 'lib', :constraints => {:host => /^lib.*/} 
-
-  match "/rpc" => 'rpc#call'
 
 #	match  :constraints => {:host => /^ipacs.*/} do
 #		match "/t" => 'home#index'

@@ -4,6 +4,7 @@
   %title= yield(:page_title) + ' | IPACS'
   = stylesheet_link_tag    "application"
   = javascript_include_tag "application"
+  = yield(:scripts) if content_for?(:scripts)
   = csrf_meta_tags
  -@site_id = content_for :site_id
  %body{class: [@site_id, :any]}

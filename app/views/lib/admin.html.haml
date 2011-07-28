@@ -1,0 +1,13 @@
+
+-content_for :page_title, 'IPACS Electronic Library'
+-content_for :page_id, 'index'
+-content_for :scripts, javascript_include_tag("lib_admin")
+
+-set_content_for :content do
+ .page
+  %h2 The IPACS Library
+  .page-body
+
+-render :file => 'lib/layout'
+
+
