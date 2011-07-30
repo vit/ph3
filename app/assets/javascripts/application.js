@@ -6,7 +6,8 @@
 //
 //= require jquery
 // q = require jquery_ujs
-//= require lib
+// q = require lib
+//= require rpc
 // q = require_tree .
 //
 

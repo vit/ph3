@@ -3,4 +3,18 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 
+#$(document).ready ->
+$ ->
+	window.RPC = (path) ->
+		(method, data, ok_fun, err_fun) ->
+			$.ajax
+				url: path
+			#	data: JSON.stringify(data)
+				data: JSON.stringify({method: method, params: data})
+				dataType: 'json'
+				processData: false
+				type: 'POST'
+				success: ok_fun
+
+	window.rpc = window.RPC('/rpc')
 

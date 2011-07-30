@@ -3,5 +3,6 @@ class LibController < ApplicationController
 	#	@cc = self.class
 	end
 	def admin
+
 	end
 end
