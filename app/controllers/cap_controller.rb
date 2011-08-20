@@ -1,19 +1,17 @@
 class CapController < ApplicationController
 	def index
 	end
-	def about
+	def scope
 	#	render 'about'
 	end
-	def regulations
-	#	render 'index'
+	def editorial
 	end
-	def membership
-	#	render 'membership'
+	def forauthors
 	end
-	def officials
-	#	render 'officials'
+	def submit
+	end
+	def read
 	end
 	def contacts
-	#	render 'contacts'
 	end
 end

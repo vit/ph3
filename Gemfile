@@ -29,6 +29,7 @@ gem 'jquery-rails'
 gem 'unicorn'
 gem 'haml'
 gem 'mongo'
+gem 'pg'
 gem 'bson_ext'
 gem 'unicode_utils'
 

@@ -1,9 +1,13 @@
 <%
 	topnav = [
-		{id: 'ipacs', text: 'IPACS Home', url: 'http://ipacs.evarist.ru'},
+		{id: 'ipacs', text: 'IPACS Home', url: 'http://ipacs.evarist.ru', title: 'International Physics and Control Society home page'},
 #		{id: 'coms', text: 'CoMS', url: 'http://ipacs.evarist.ru'},
-		{id: 'cap', text: 'CAP Journal', url: 'http://cap.evarist.ru'},
-		{id: 'lib', text: 'Library', url: 'http://lib2.evarist.ru'},
+		{id: 'coms', text: 'CoMS', url: 'http://coms.physcon.ru', title: 'Conference Management System (submission site)'},
+		{id: 'cap', text: 'CAP Journal', url: 'http://cap.evarist.ru', title: 'Cybernetics and Physics Journal'},
+		{id: 'lib', text: 'Library', url: 'http://lib2.evarist.ru', title: 'IPACS Electronic library'},
+		{id: 'dir', text: 'Directory', url: 'http://physcon.ru/dir', title: 'Physics and Control resources directory'},
+		{id: 'conf', text: 'Conferences', url: 'http://conf.physcon.ru', title: 'Conferences sites'},
+		{id: 'album', text: 'Album', url: 'http://album.physcon.ru', title: 'Album'},
 #		{id: 'conf', text: 'Conferences', url: 'http://ipacs.evarist.ru'},
 #		{id: 'album', text: 'Album', url: 'http://ipacs.evarist.ru'}
 	]
@@ -12,9 +16,9 @@
 <div class='nav'><ul>
 <% topnav.each do |elm| %>
 	<% if elm[:id]==@site_id %>
-		<li><a href="<%= elm[:url]%>" class="current"><strong><%= elm[:text] %></strong></a></li>
+		<li><a href="<%= elm[:url]%>" class="current" title="<%= elm[:title]%>"><strong><%= elm[:text] %></strong></a></li>
 	<% else %>
-		<li><a href="<%= elm[:url]%>"><%= elm[:text] %></a></li>
+		<li><a href="<%= elm[:url]%>" title="<%= elm[:title]%>"><%= elm[:text] %></a></li>
 	<% end %>
 <% end %>
 </ul>
