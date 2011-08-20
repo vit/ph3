@@ -1,0 +1,46 @@
+#! /bin/sh
+
+# PROVIDE: ph2
+# REQUIRE: NETWORK
+# REQUIRE: mongod
+# KEYWORD: shutdown
+
+name=ph3
+export LANG=ru_RU.UTF-8
+
+. /etc/rc.subr
+
+rcvar=${name}_enable
+load_rc_config $name
+
+name=postgresql
+start_cmd="prs_start"
+stop_cmd="prs_stop"
+
+export PATH=/usr/local/bin:$PATH
+
+prs_start()
+{
+	cd /root/projects/ph3/
+#	cd /root/projects/alfserver/
+	sleep 2
+#	/usr/local/rvm/wrappers/ruby-1.9.1-p378@ph2/rackup -s thin config.ru >> /var/log/ph2.log 2>&1 &
+#	/usr/local/rvm/wrappers/ruby-1.9.1-p431@ph2/rackup -s thin config.ru >> /var/log/ph2.log 2>&1 &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph2/unicorn -c unicorn.conf.rb config.ru >> /var/log/ph2.log 2>&1 &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph2/unicorn -c unicorn_conf.rb config.ru >> /var/log/alfserver.log 2>&1 &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph2/unicorn -c unicorn_conf.rb config.ru 2>&1 &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph2/unicorn -c unicorn_conf.rb config.ru 1>&2 &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@prs4/unicorn -c unicorn_conf.rb config.ru &
+	#/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -c unicorn_conf.rb config.ru &
+	bin/unicorn_rails -c unicorn_conf.rb config.ru &
+}
+prs_stop()
+{
+#	/bin/kill -s TERM `ps -ax | grep ph2 | grep rackup | perl -e '<STDIN>=~m/(\d+)/g; print $1'`
+#	/bin/kill -s TERM `ps -ax | grep 'unicorn master' | perl -e '<STDIN>=~m/(\d+)/g; print $1'`
+#	/bin/kill -s TERM `cat /tmp/alfserver.pid`
+	/bin/kill -s TERM `cat /tmp/ph3.pid`
+}
+
+run_rc_command "$1"
+

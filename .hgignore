@@ -8,8 +8,9 @@ tmp/
 .sass-cache/
 
 bin.0/
+bin/
 *~
 *.swp
 *.swo
-
+*.core
 
