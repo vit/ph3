@@ -6,6 +6,18 @@
  .page
   %h2 IPACS News
   .page-body
+   -#%p= Physcon::App.model.pg.inspect
+   .news-list
+    -@data.each do |row|
+     .news-item
+      -time = DateTime.parse(row['addtime']).strftime('%d.%m.%Y')
+      .time= time
+      .title
+       %b= row['title']
+      .content!= row['content']
+      -#.time= row['addtime']
+      -#.body= row
+
  
 -render :file => 'ipacs/layout'
 

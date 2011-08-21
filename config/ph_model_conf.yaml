@@ -1,15 +1,29 @@
 
 
 development:
+        pg:
+                conn:
+                        dbname: db00060892
+                        host: localhost
+                        user: db00060892
+                        password: rjulfytjn[elfbytjnlj,hf
+                schema: userschema, cmsmlschema, comsml01, coms01, membership01
         mongo:
                 host: localhost
-                db_name: ph3_dev
+                dbname: ph3_dev
 
 test:
 
 production:
+        pg:
+                conn:
+                        dbname: db00060892
+                        host: localhost
+                        user: db00060892
+                        password: rjulfytjn[elfbytjnlj,hf
+                schema: userschema, cmsmlschema, comsml01, coms01, membership01
         mongo:
                 host: localhost
-                db_name: ph3
+                dbname: ph3
 
 

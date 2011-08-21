@@ -55,20 +55,20 @@ Ph3::Application.routes.draw do
   # root :to => 'welcome#index'
 
 #  root :to => 'home#index'
-  match '/r' => -> env { [200, {"Content-Type" => "text/plain"}, [env.inspect]] }
+#  match '/r' => -> env { [200, {"Content-Type" => "text/plain"}, [env.inspect]] }
 
 #  match "/:action" => 'home#index', :constraints => {:host => /^ipacs.*/} 
 
   match "/rpc" => 'rpc#call'
 
-  root :to => 'ipacs#index', :constraints => {:host => /^ipacs.*/}
-  match "/:action" => 'ipacs', :constraints => {:host => /^ipacs.*/} 
+  root :to => 'ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/}
+  match "/:action" => 'ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
 
   root :to => 'cap#index', :constraints => {:host => /^cap.*/}
   match "/:action" => 'cap', :constraints => {:host => /^cap.*/} 
 
-  root :to => 'lib#index', :constraints => {:host => /^lib.*/}
-  match "/:action" => 'lib', :constraints => {:host => /^lib.*/} 
+  root :to => 'lib#index', :constraints => {:host => /^(lib.*|lib2.*)/}
+  match "/:action" => 'lib', :constraints => {:host => /^(lib.*|lib2.*)/} 
 
 #	match  :constraints => {:host => /^ipacs.*/} do
 #		match "/t" => 'home#index'

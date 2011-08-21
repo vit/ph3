@@ -2,6 +2,10 @@ class IpacsController < ApplicationController
 	def index
 	end
 	def news
+		@data = Physcon::App.model.pg.query_inject [], "SELECT newsid, title, content, addtime FROM newsschema.news ORDER BY addtime DESC" do |acc, row|
+			acc << row
+			acc
+		end
 	end
 #	def about
 #	#	render 'about'

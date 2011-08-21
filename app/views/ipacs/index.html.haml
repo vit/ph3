@@ -4,8 +4,29 @@
 
 -set_content_for :content do
  .page
-  %h2 IPACS Main page
+  -#%h2 IPACS Main page
   .page-body
+   .main-page
+    .row
+     .block
+      .title
+       %a{href: 'http://coms.physcon.ru'}
+        %b CoMS
+      .body
+       .subtitle Open Conferences
+     .block
+      %a{href: 'http://cap.physcon.ru'}
+       %b CAP Journal
+      -#.title
+       %a{href: 'http://cap.physcon.ru'}
+        %b CAP Journal
+      -#.body
+       .list
+        .item
+         %a{href: 'http://cap.physcon.ru/submit'} Submit
+        .item
+         %a{href: 'http://cap.physcon.ru/read'} Read
+     .clear
 
 -render :file => 'ipacs/layout'
 

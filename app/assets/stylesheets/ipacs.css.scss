@@ -3,6 +3,48 @@
 body.ipacs {
 //	margin: 0 2% 0 2%;
 //	background-color: green;
+	.news-list {
+	}
+	.news-item {
+		margin: 0.7em 0;
+		> .title {
+			letter-spacing: 0.1em;
+			font-family: Georgia, "Times New Roman", Times, serif;
+		}
+		> .time {
+			opacity: 0.6;
+			font: { size: 0.8em; }
+		}
+		> .content {
+		}
+	}
+	.main-page {
+		.row {
+			border: solid 1px black;
+				//float: left;
+			.block {
+			//	border: solid 1px black;
+				float: left;
+				display: inline;
+				width: 40%;
+				.title {
+				//	display: inline;
+				}
+				.body {
+				//	display: inline;
+				}
+				.list {
+				//	display: inline;
+				}
+				.item {
+				//	display: inline;
+				}
+			}
+			.clear {
+				clear: both;
+			}
+		}
+	}
 }
 
 
