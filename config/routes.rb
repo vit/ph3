@@ -61,6 +61,12 @@ Ph3::Application.routes.draw do
 
   match "/rpc" => 'rpc#call'
 
+  match "/ipacs/" => 'old_ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+#  match "/ipacs/:action.html" => 'old_ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+#  match "/ipacs/:action.html" => 'old_ipacs#:action', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+#  match "/ipacs/:action.html" => 'old_ipacs#any', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+  match "/ipacs/:name.html" => 'old_ipacs#any', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+
   root :to => 'ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/}
   match "/:action" => 'ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
 

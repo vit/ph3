@@ -3,21 +3,34 @@
 body.ipacs {
 //	margin: 0 2% 0 2%;
 //	background-color: green;
-	.news-list {
+	.site {
+		> .page {
+			> .page-body {
+				> .news-list {
+				//	border: solid 5px black;
+				//	padding: 2em;
+				//	background-color: red;
+					margin: 0;
+					> .news-item {
+					//	background-color: green;
+					//	border: solid 5px black;
+						margin: 0.7em 0;
+						> .title {
+							letter-spacing: 0.1em;
+							font-family: Georgia, "Times New Roman", Times, serif;
+						}
+						> .time {
+							opacity: 0.6;
+							font: { size: 0.8em; }
+						}
+						> .content {
+						}
+					}
+				}
+			}
+		}
 	}
-	.news-item {
-		margin: 0.7em 0;
-		> .title {
-			letter-spacing: 0.1em;
-			font-family: Georgia, "Times New Roman", Times, serif;
-		}
-		> .time {
-			opacity: 0.6;
-			font: { size: 0.8em; }
-		}
-		> .content {
-		}
-	}
+	/*
 	.main-page {
 		.row {
 			border: solid 1px black;
@@ -45,6 +58,7 @@ body.ipacs {
 			}
 		}
 	}
+	*/
 }
 
 

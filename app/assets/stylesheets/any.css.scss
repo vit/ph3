@@ -45,7 +45,8 @@ body.any {
 			}
 		}
 	}
-	.site {
+//	/*
+	> .site {
 		> .title {
 			border-bottom: 2px solid $textcolor2;
 		//	margin-bottom: 0.4em;
@@ -131,6 +132,7 @@ body.any {
 			}
 		}
 	}
+//	*/
 	.bottom {
 		border-top: 2px solid $textcolor2;
 		margin-top: 1em;
