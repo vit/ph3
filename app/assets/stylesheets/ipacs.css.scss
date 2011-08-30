@@ -30,21 +30,22 @@ body.ipacs {
 			}
 		}
 	}
-	/*
 	.main-page {
 		.row {
-			border: solid 1px black;
+		//	border: solid 1px black;
 				//float: left;
 			.block {
 			//	border: solid 1px black;
-				float: left;
-				display: inline;
-				width: 40%;
+				margin: 0.5em 0;
+			//	float: left;
+			//	display: inline;
+			//	width: 40%;
 				.title {
 				//	display: inline;
 				}
 				.body {
 				//	display: inline;
+					margin: 0.2em 0 0 1em;
 				}
 				.list {
 				//	display: inline;
@@ -58,7 +59,6 @@ body.ipacs {
 			}
 		}
 	}
-	*/
 }
 
 

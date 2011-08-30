@@ -10,6 +10,7 @@
    .news-list
     -@data.each do |row|
      .news-item
+      %a{name: "news_#{row['newsid']}"}
       -time = DateTime.parse(row['addtime']).strftime('%d.%m.%Y')
       .time= time
       .title
