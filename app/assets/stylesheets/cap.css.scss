@@ -5,4 +5,15 @@
 body.cap {
 //	background-color: gray;
 //	background-color: white;
+	> .site {
+		> .page {
+			> .page-body {
+				> .cover {
+					float: left;
+					//width: auto;
+					margin-right: 0.5em;
+				}
+			}
+		}
+	}
 }
