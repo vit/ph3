@@ -61,6 +61,10 @@ Ph3::Application.routes.draw do
 
   match "/rpc" => 'rpc#call'
 
+  match "/ddir/" => 'dir#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+#  match "/ddir/:name.html" => 'dir#any', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+  match "/ddir/c(:category)t(:topic).html" => 'dir#any', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/, :topic => /\d+/, :category => /\d+/}
+
   match "/ipacs/" => 'old_ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
 #  match "/ipacs/:action.html" => 'old_ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
 #  match "/ipacs/:action.html" => 'old_ipacs#:action', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 

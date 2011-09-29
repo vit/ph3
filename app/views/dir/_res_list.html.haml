@@ -1,0 +1,21 @@
+
+-#%center
+ %h3 New resources:
+%ul
+ -lst.each do |row|
+  %li
+   -#= row.inspect
+   %b
+    %a{target: '_blank', href: row['url']}= row['title']
+   =(row['date'])
+   %br
+   -if row['isevent']=='t'
+    %b
+     =row['diapazon']
+     /
+     =row['place']
+    %br
+   != nl2br row['description']
+   %p
+
+
