@@ -5,9 +5,13 @@
 // the compiled file.
 //
 //= require jquery
+//= require utils/mixin
+// q = require jquery-ui
+// q = require jquery-ui-themes
 // q = require jquery_ujs
 // q = require lib
 //= require rpc
 // q = require_tree .
+//= require admin/lib
 //
 

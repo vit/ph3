@@ -1,0 +1,19 @@
+<%
+	topnav = [
+	#	{id: 'about', text: 'About IPACS', url: '/'},
+		{id: 'index', text: 'Main page', url: '/'},
+		{id: 'lib', text: 'Library', url: '/lib'}
+	]
+%>
+<div class='nav'>
+	<ul>
+<% topnav.each do |elm| %>
+	<% if elm[:id]==@page_id %>
+		<li><a href="<%= elm[:url]%>" class="current"><strong><%= elm[:text] %></strong></a></li>
+	<% else %>
+		<li><a href="<%= elm[:url]%>"><%= elm[:text] %></a></li>
+	<% end %>
+<% end %>
+	</ul>
+</div>
+

@@ -80,6 +80,10 @@ Ph3::Application.routes.draw do
   root :to => 'lib#index', :constraints => {:host => /^(lib.*|lib2.*)/}
   match "/:action" => 'lib', :constraints => {:host => /^(lib.*|lib2.*)/} 
 
+  root :to => 'admin#index', :constraints => {:host => /^(admin.*)/}
+  match "/:action" => 'admin', :constraints => {:host => /^(admin.*)/} 
+  match "/lib/:action" => 'admin_lib', :constraints => {:host => /^(admin.*)/} 
+
 #	match  :constraints => {:host => /^ipacs.*/} do
 #		match "/t" => 'home#index'
 #	end

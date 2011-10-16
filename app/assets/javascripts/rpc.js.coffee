@@ -3,8 +3,8 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 
-#$(document).ready ->
-$ ->
+$(document).ready ->
+#$ ->
 	window.RPC = (path) ->
 		(method, data, ok_fun, err_fun) ->
 			$.ajax
