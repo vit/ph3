@@ -3,16 +3,10 @@
 #$(document).ready ->
 #$ -> ((box)->
 ((box)->
-	#window.rpc 'aaacall', [], (data) ->
-	#	alert(JSON.stringify(data))
 
 	loadInfo = (id, callback) -> rpc 'lib.get_doc_info', [id], (res, err)-> callback res.result
-	loadChildren = (id, callback) ->
-		callback [
-			{_id: 123, title: 'qwerty'},
-			{_id: 321, title: 'assfghj'}
-		]
-	new_doc = (data, callback) -> rpc 'lib.new_doc', [data], (res, err)-> callback res.result
+	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
+	new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 
 	DocInfo = (-> (div) ->
 		currInfo = null
@@ -57,8 +51,9 @@
 		)()
 		me = {
 			render: (info) -> 
-				currInfo = info
-				panel.showView()
+				if info
+					currInfo = info
+					panel.showView()
 				null
 			load: (_id) ->
 				id = _id
@@ -78,12 +73,17 @@
 			addBtn = $('<button>Add</button>').click () ->
 				showAdd()
 			saveBtn = $('<button>Save</button>').click () ->
-				currInfo = {}
-				currInfo.title = addTitle.val()
-				currInfo.abstract = addAbstract.val()
-				new_doc currInfo, (result) -> alert(JSON.stringify result)
-				hideAdd()
-				me.load id
+				#currInfo = {}
+				#currInfo.title = addTitle.val()
+				#currInfo.abstract = addAbstract.val()
+				#new_doc id, false, {
+				new_doc null, false, {
+					title: addTitle.val(),
+					abstract: addAbstract.val()
+				}, (result) ->
+					#alert(JSON.stringify result)
+					hideAdd()
+					me.load id
 			cancelBtn = $('<button>Cancel</button>').click () ->
 				hideAdd()
 			hideAdd = ->
@@ -108,11 +108,19 @@
 			render: (children) -> 
 				ul.empty()
 				for v in children
-					$('<li>').appendTo(ul).text(v.title)
+					((v) ->
+						#$('<li>').append((->
+						#	$('<a>').click(-> notifier.notify('changed', v._id)).text(v.info.title)
+						#)()).appendTo(ul)
+						$('<li>').append($('<a>').click(
+							-> notifier.notify('changed', v._id)
+						).text(v.info.title)).appendTo(ul)
+					)(v)
 				null
 			load: (_id) ->
 				id = _id
 				loadChildren id, (children) ->
+					#alert JSON.stringify children
 					me.render children
 				null
 		}
@@ -124,14 +132,18 @@
 		childrenDiv = $('<div></div>').appendTo( pageDiv.append($('<div>').append($('<h3>').text('Children'))) )
 		docInfo = new DocInfo(infoDiv)
 		docChildren = new DocChildren(childrenDiv)
-		{
+		notifier.attach 'changed', (id) ->
+			me.showDoc(id)
+		me = {
 			showDoc: (id) -> 
 				#docInfo.render data.info
 				docInfo.load id
 				#docChildren.render data.children
 				docChildren.load id
 		}
+		me
 	)()
+	notifier = Mixin {}, Mixin.Observable
 
 	ipacs = {admin: {}}
 	box.ipacs = ipacs
