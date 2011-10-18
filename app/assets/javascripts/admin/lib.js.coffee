@@ -4,10 +4,42 @@
 #$ -> ((box)->
 ((box)->
 
+	loadAncestors = (id, callback) -> rpc 'lib.get_doc_ancestors', [id], (res, err)-> callback res.result
 	loadInfo = (id, callback) -> rpc 'lib.get_doc_info', [id], (res, err)-> callback res.result
 	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
 	new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 
+	DocPath = (-> (div) ->
+		currInfo = null
+		id = null
+		panel = (->
+			renderOne = (v) ->
+				$('<span>').append($('<a>').click(
+					-> notifier.notify('changed', v._id)
+				).text(v.title)).appendTo(div)
+			render = (list) ->
+				div.empty()
+				#renderOne {_id: null, title: 'Library'}
+				list.unshift {_id: null, title: 'Library'}
+				for v in list
+					renderOne v
+					$('<span> / </span>').appendTo(div)
+				null
+			{
+				render: render
+			}
+		)()
+		me = {
+			render: (list) -> 
+				panel.render list
+			load: (_id) ->
+				id = _id
+				loadAncestors id, (list) ->
+					me.render list
+				null
+		}
+		me
+	)()
 	DocInfo = (-> (div) ->
 		currInfo = null
 		id = null
@@ -77,7 +109,7 @@
 				#currInfo.title = addTitle.val()
 				#currInfo.abstract = addAbstract.val()
 				#new_doc id, false, {
-				new_doc null, false, {
+				new_doc id, false, {
 					title: addTitle.val(),
 					abstract: addAbstract.val()
 				}, (result) ->
@@ -128,8 +160,10 @@
 	)()
 	DocPage = (-> (container) ->
 		pageDiv = $('<div></div>').appendTo container
+		pathDiv = $('<div></div>').appendTo( pageDiv.append($('<div>')) )
 		infoDiv = $('<div></div>').appendTo( pageDiv.append($('<div>').append($('<h3>').text('Info'))) )
 		childrenDiv = $('<div></div>').appendTo( pageDiv.append($('<div>').append($('<h3>').text('Children'))) )
+		docPath = new DocPath(pathDiv)
 		docInfo = new DocInfo(infoDiv)
 		docChildren = new DocChildren(childrenDiv)
 		notifier.attach 'changed', (id) ->
@@ -137,6 +171,7 @@
 		me = {
 			showDoc: (id) -> 
 				#docInfo.render data.info
+				docPath.load id
 				docInfo.load id
 				#docChildren.render data.children
 				docChildren.load id
