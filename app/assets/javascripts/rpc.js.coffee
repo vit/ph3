@@ -9,10 +9,13 @@ $(document).ready ->
 		(method, data, ok_fun, err_fun) ->
 			$.ajax
 				url: path
+				contentType: 'application/json'
 			#	data: JSON.stringify(data)
+			#	data: escape(JSON.stringify({method: method, params: data}))
 				data: JSON.stringify({method: method, params: data})
 				dataType: 'json'
 				processData: false
+			#	processData: true
 				type: 'POST'
 				success: ok_fun
 

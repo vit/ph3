@@ -7,7 +7,10 @@
 	loadAncestors = (id, callback) -> rpc 'lib.get_doc_ancestors', [id], (res, err)-> callback res.result
 	loadInfo = (id, callback) -> rpc 'lib.get_doc_info', [id], (res, err)-> callback res.result
 	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
-	new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
+	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
+	new_doc = (parent, dir, data, callback) ->
+		#alert escape(JSON.stringify(data))
+		rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 
 	DocPath = (-> (div) ->
 		currInfo = null
