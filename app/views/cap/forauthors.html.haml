@@ -4,13 +4,48 @@
 
 -set_content_for :content do
  .page
-  %h2 Instructions for Authors
+  %h2 Author Information
   .page-body
    %p
-    Under Construction
+    Submission of a paper implies that the work described has not been published previously (except in the form of an abstract or as part of a published lecture or academic thesis), that it is not under consideration for publication elsewhere and that its publication is approved by all authors and by the responsible authorities where the work was carried out. The paper must be prepared in English and meet technical standards. It will be reviewed by two independent reviewers.
+   %p
+    %b Paper organization.
+    The papers should be prepared using LaTeX in two-column format. LaTeX instructions 'including class file CAP-journal.cls and a template 'CAPauthor' in
+    %a{href: 'cap/CAPauthor.tex'} latex
+    and
+    %a{href: 'cap/CAPauthor.pdf'} pdf
+    format can be downloaded from journal website:
+    %span= ' '
+    %a{href: 'http://cap.physcon.ru'}> http://cap.physcon.ru
+    \.
+    The paper should begin with an abstract, followed by key words, and then an introduction. No more than six key words must be given. At the end, it should feature a conclusion and a list of references. Acknowledgements (if any) may precede the references. Symbols and acronyms should be defined the first time they appear. Use the International System (SI) of units.
+   %p
+    %b Length.
+    The length of the title of your paper should not exceed two lines. The maximum length of the abstract is 200 words. Three paper types are admitted: survey, regular and brief paper.  The length of a regular paper, including figures and tables, should not exceed twelve (12) two-column pages. The length of a brief paper  should be 4-6 two-column pages. The length of survey paper has no restriction.  However, the authors are advised to contact the Editorial Board before writing a survey paper. The length of the paper should be modified if more than about two thirds of the last page remains empty.
+   %p
+    %b Illustrations.
+    For the online version of the journal both color and black-and-white drawings, tables and photographs are acceptable. Please check whether they are still legible when printed in black-and-white (for printed version of the journal). Illustrations must be placed within the 'figure' environment, accompanied by captions and inserted in the text  near the place where they are mentioned. Use the same or similar font sizes in your illustrations as in the manuscript. Check whether the smallest lettering, (subscripts) is still legible. Captions should be made with the 'caption' command and should explain illustrations without a further reading of the paper.
+   %p
+    %b Equations.
+    All equations should be centered. The equations that are referred to should be numbered. Use the 'equation' environment, like the example given in the template.
+   %p
+    %b Bibliography.
+    Harward bibliography style is adopted. If you want to use BibTeX, then follow the instructions in the template
+    %span= ' '
+    %a{href: 'cap/CAPauthor.tex'}> CAPauthor.tex
+    \.
+   %p
+    %b Paper Submission.
+    The paper in PDF format should be uploaded through Submission site at
+    %span= ' '
+    %a{href: 'http://coms.physcon.ru/conf/12/'}> http://coms.physcon.ru/conf/12/
+    \.
+    Faxed and emailed submissions will not be accepted. The corresponding author should fill in and sign the copyright transfer form and submit it along with the cover letter to the Editorial office: cap@physcon.ru The copyright transfer form as well as instructions for paper preparation can be found on the journal website:
+    %span= ' '
+    %a{href: 'http://cap.physcon.ru'}> http://cap.physcon.ru
+    \.
+    &= 'To maintain the same look when viewing or printing your paper on another machine, you should embed all fonts used in the PDF file. When creating a PDF file, click <Properties>, <Adobe PDF Setting>, <Job Option Edit> and then <Embed All Fonts>. The size of the PDF file should not exceed 2.0 MB. Upon acceptance of the paper you may be requested to submit the source files too.'
 
-   %br
-   %br
  
 -render :file => 'cap/layout'
 
