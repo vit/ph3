@@ -1,0 +1,32 @@
+
+-content_for :page_title, 'Library document'
+
+-set_content_for :content do
+ %div
+  -#=@children.inspect
+  -#=@ancestors.inspect
+  %div
+   -@ancestors.each do |elm|
+    %a{href: "doc?id=#{elm['_id']}"}= elm['title']
+    \/
+  -if @doc
+   %br
+   %div
+    %div
+     %b Title:
+     %i= @doc['title']
+    %div
+     %b Authors:
+     %i= @doc['authors']
+    %div
+     %b Abstract:
+     %i!= nl2br h(@doc['abstract'])
+  %div
+   %ul
+    -@children.each do |elm|
+     %li
+      %a{href: "doc?id=#{elm['_id']}"}= elm['info']['title']
+
+-render :file => 'lib/layout'
+
+

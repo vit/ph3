@@ -7,6 +7,7 @@
 	loadAncestors = (id, callback) -> rpc 'lib.get_doc_ancestors', [id], (res, err)-> callback res.result
 	loadInfo = (id, callback) -> rpc 'lib.get_doc_info', [id], (res, err)-> callback res.result
 	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
+	loadConfsList = (callback) -> rpc 'coms.get_confs_list', [], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 	new_doc = (parent, dir, data, callback) ->
 		#alert escape(JSON.stringify(data))
@@ -101,41 +102,60 @@
 	DocChildren = (-> (div) ->
 		id = null
 		panel = (->
-			noAddDiv = $('<div>').appendTo div
+			stdDiv = $('<div>').appendTo div
 			addDiv = $('<div>').appendTo div
-			addTitle = $('<input type="text">').width('100%')
-			addAbstract = $('<textarea>').width('100%')
-			addBtn = $('<button>Add</button>').click () ->
-				showAdd()
-			saveBtn = $('<button>Save</button>').click () ->
-				#currInfo = {}
-				#currInfo.title = addTitle.val()
-				#currInfo.abstract = addAbstract.val()
-				#new_doc id, false, {
-				new_doc id, false, {
-					title: addTitle.val(),
-					abstract: addAbstract.val()
-				}, (result) ->
-					#alert(JSON.stringify result)
-					hideAdd()
-					me.load id
-			cancelBtn = $('<button>Cancel</button>').click () ->
-				hideAdd()
-			hideAdd = ->
-				noAddDiv.show()
+			importDiv = $('<div>').appendTo div
+			showStd = ->
+				stdDiv.show()
 				addDiv.hide()
+				importDiv.hide()
 			showAdd = ->
 				addDiv.show()
-				noAddDiv.hide()
-			noAddDiv.append(addBtn)
-			addDiv.append('<i>Add new item</i><br>')
-				.append('<b>Title:</b> ').append(addTitle)
-				.append('<br>')
-				.append('<b>Abstract:</b> ').append(addAbstract)
-				.append('<br>')
-				.append(saveBtn)
-				.append(cancelBtn)
-			hideAdd()
+				stdDiv.hide()
+			showImport = ->
+				loadConfsList (result)-> alert JSON.stringify result
+				importDiv.show()
+				stdDiv.hide()
+			(->
+				addBtn = $('<button>Add</button>').click () ->
+					showAdd()
+				importBtn = $('<button>Import</button>').click () ->
+					showImport()
+				stdDiv.append(addBtn)
+				stdDiv.append(importBtn)
+			)()
+			(->
+				addTitle = $('<input type="text">').width('100%')
+				addAbstract = $('<textarea>').width('100%')
+				saveBtn = $('<button>Save</button>').click () ->
+					new_doc id, false, {
+						title: addTitle.val(),
+						abstract: addAbstract.val()
+					}, (result) ->
+						showStd()
+						me.load id
+				cancelBtn = $('<button>Cancel</button>').click () ->
+					showStd()
+				addDiv.append('<i>Add new item</i><br>')
+					.append('<b>Title:</b> ').append(addTitle)
+					.append('<br>')
+					.append('<b>Abstract:</b> ').append(addAbstract)
+					.append('<br>')
+					.append(saveBtn)
+					.append(cancelBtn)
+			)()
+			(->
+				cancelBtn = $('<button>Cancel</button>').click () ->
+					showStd()
+				importDiv.append('<i>Import papers from conferences</i><br>')
+				#	.append('<b>Title:</b> ').append(addTitle)
+				#	.append('<br>')
+				#	.append('<b>Abstract:</b> ').append(addAbstract)
+					.append('<br>')
+				#	.append(saveBtn)
+					.append(cancelBtn)
+			)()
+			showStd()
 			{}
 		)()
 		ul = $('<ul>').appendTo(div)
