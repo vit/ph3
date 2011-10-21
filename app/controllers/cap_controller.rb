@@ -1,17 +1,20 @@
 class CapController < ApplicationController
-	def index
+#	def index
+#	end
+#	def scope
+#	#	render 'about'
+#	end
+	def sections
+		redirect_to '/scope'
 	end
-	def scope
-	#	render 'about'
-	end
-	def editorial
-	end
-	def forauthors
-	end
-	def submit
-	end
-	def read
-	end
-	def contacts
-	end
+#	def editorial
+#	end
+#	def forauthors
+#	end
+#	def submit
+#	end
+#	def read
+#	end
+#	def contacts
+#	end
 end
