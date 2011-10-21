@@ -144,16 +144,16 @@
 					.append(saveBtn)
 					.append(cancelBtn)
 			)()
-			(->
+			((cancelBtn, t, tb, td1, td2)->
 				cancelBtn = $('<button>Cancel</button>').click () ->
 					showStd()
 				importDiv.append('<i>Import papers from conferences</i><br>')
-				#	.append('<b>Title:</b> ').append(addTitle)
-				#	.append('<br>')
-				#	.append('<b>Abstract:</b> ').append(addAbstract)
-					.append('<br>')
-				#	.append(saveBtn)
+				importDiv.append( t=$('<table>').append( tb=$('<tbody>') ) )
 					.append(cancelBtn)
+			#	t.append( tb=$('<tbody>') )
+				tb.append( td1=$('<td>') )
+				tb.append( td2=$('<td>') )
+				td1.text('rqrt wertwert wertwe t wewt e')
 			)()
 			showStd()
 			{}
