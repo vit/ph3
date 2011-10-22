@@ -8,6 +8,7 @@
 	loadInfo = (id, callback) -> rpc 'lib.get_doc_info', [id], (res, err)-> callback res.result
 	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
 	loadConfsList = (callback) -> rpc 'coms.get_confs_list', [], (res, err)-> callback res.result
+	loadConfPapersList = (id, callback) -> rpc 'coms.get_conf_accepted_papers_list', [id], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 	new_doc = (parent, dir, data, callback) ->
 		#alert escape(JSON.stringify(data))
@@ -18,8 +19,9 @@
 		id = null
 		panel = (->
 			renderOne = (v) ->
-				$('<span>').append($('<a>').click(
-					-> notifier.notify('changed', v._id)
+				$('<span>').append($('<a href="#">').click( (e)->
+					e.preventDefault()
+					notifier.notify('changed', v._id)
 				).text(v.title)).appendTo(div)
 			render = (list) ->
 				div.empty()
@@ -64,15 +66,21 @@
 			viewElms = [viewTitle, viewAbstract, editBtn]
 			editElms = [editTitle, editAbstract, saveBtn, cancelBtn]
 			showView = ->
-				viewTitle.text(currInfo.title)
-				viewAbstract.text(currInfo.abstract)
-				elm.show() for elm in viewElms
+				if id
+					viewTitle.text(currInfo.title)
+					viewAbstract.text(currInfo.abstract)
+					elm.show() for elm in viewElms
+				else
+					elm.hide() for elm in viewElms
 				elm.hide() for elm in editElms
 			showEdit = ->
-				editTitle.val(currInfo.title)
-				editAbstract.val(currInfo.abstract)
+				if id
+					editTitle.val(currInfo.title)
+					editAbstract.val(currInfo.abstract)
+					elm.show() for elm in editElms
+				else
+					elm.hide() for elm in editElms
 				elm.hide() for elm in viewElms
-				elm.show() for elm in editElms
 			viewDiv.append('<b>Title:</b> ').append(viewTitle).append(editTitle)
 				.append('<br>')
 				.append('<b>Abstract:</b> ').append(viewAbstract).append(editAbstract)
@@ -87,9 +95,10 @@
 		)()
 		me = {
 			render: (info) -> 
-				if info
-					currInfo = info
-					panel.showView()
+			#	if info
+				#currInfo = info || {title: '', abstract: ''}
+				currInfo = info
+				panel.showView()
 				null
 			load: (_id) ->
 				id = _id
@@ -105,6 +114,7 @@
 			stdDiv = $('<div>').appendTo div
 			addDiv = $('<div>').appendTo div
 			importDiv = $('<div>').appendTo div
+			listDiv = $('<div>').appendTo div
 			showStd = ->
 				stdDiv.show()
 				addDiv.hide()
@@ -113,14 +123,13 @@
 				addDiv.show()
 				stdDiv.hide()
 			showImport = ->
-				loadConfsList (result)-> alert JSON.stringify result
+				importBlock.load()
+				#loadConfsList (result)-> alert JSON.stringify result
 				importDiv.show()
 				stdDiv.hide()
 			(->
-				addBtn = $('<button>Add</button>').click () ->
-					showAdd()
-				importBtn = $('<button>Import</button>').click () ->
-					showImport()
+				addBtn = $('<button>Add</button>').click () -> showAdd()
+				importBtn = $('<button>Import</button>').click () -> showImport()
 				stdDiv.append(addBtn)
 				stdDiv.append(importBtn)
 			)()
@@ -134,8 +143,7 @@
 					}, (result) ->
 						showStd()
 						me.load id
-				cancelBtn = $('<button>Cancel</button>').click () ->
-					showStd()
+				cancelBtn = $('<button>Cancel</button>').click () -> showStd()
 				addDiv.append('<i>Add new item</i><br>')
 					.append('<b>Title:</b> ').append(addTitle)
 					.append('<br>')
@@ -144,39 +152,76 @@
 					.append(saveBtn)
 					.append(cancelBtn)
 			)()
-			((cancelBtn, t, tb, td1, td2)->
-				cancelBtn = $('<button>Cancel</button>').click () ->
-					showStd()
+			importBlock = ((cancelBtn, t, tb, td1, td2, renderConfs)->
+				cancelBtn = $('<button>Cancel</button>').click () -> showStd()
 				importDiv.append('<i>Import papers from conferences</i><br>')
-				importDiv.append( t=$('<table>').append( tb=$('<tbody>') ) )
-					.append(cancelBtn)
-			#	t.append( tb=$('<tbody>') )
-				tb.append( td1=$('<td>') )
-				tb.append( td2=$('<td>') )
-				td1.text('rqrt wertwert wertwe t wewt e')
+				importDiv.append( t=$('<table>').append( tb=$('<tbody>') ) ).append(cancelBtn)
+				tb.append( td1=$('<td valign="top">') )
+				tb.append( td2=$('<td valign="top">') )
+				renderConfs = (list) ->
+					td1.empty()
+					#for v in list
+					$.each list, (k, v)->
+						$('<li>').append($('<a href="#">').click( (e)->
+							e.preventDefault()
+							#alert(v.contid)
+							#loadConfPapersList v.contid, (list)-> alert JSON.stringify list
+							loadConfPapersList v.contid, (list)-> renderPapers list
+							#-> notifier.notify('changed', v._id)
+						).text(v.title)).appendTo(td1)
+				renderPapers = (list) ->
+					td2.empty()
+					$.each list, (k, v)->
+						$('<li>').append($('<a href="#">').click( (e)->
+							e.preventDefault()
+							#alert(v.contid)
+						#).text(JSON.stringify v)).appendTo(td2)
+						#).text(v.title)).appendTo(td2)
+						).text(v.authors+' | '+v.title)).appendTo(td2)
+						#).text(v.title+v.finaldecision)).appendTo(td2)
+				{
+					load: ->
+						loadConfsList (result)->
+							#alert JSON.stringify result
+							renderConfs result
+				}
+			)()
+			childrenList = ((ul)->
+				ul = $('<ul>').appendTo(listDiv)
+				{
+					render: (list) ->
+						ul.empty()
+						$.each list, (k, v)->
+							$('<li>').append($('<a href="#">').click( (e)->
+								e.preventDefault()
+								notifier.notify('changed', v._id)
+							).text(v.info.title)).appendTo(ul)
+				}
 			)()
 			showStd()
-			{}
+			{
+				renderChildren: (list) ->
+					showStd()
+					childrenList.render list
+			}
 		)()
-		ul = $('<ul>').appendTo(div)
+		#ul = $('<ul>').appendTo(div)
 		me = {
-			render: (children) -> 
-				ul.empty()
-				for v in children
-					((v) ->
-						#$('<li>').append((->
-						#	$('<a>').click(-> notifier.notify('changed', v._id)).text(v.info.title)
-						#)()).appendTo(ul)
-						$('<li>').append($('<a>').click(
-							-> notifier.notify('changed', v._id)
-						).text(v.info.title)).appendTo(ul)
-					)(v)
-				null
+		#	render: (children) -> 
+		#		panel.renderChildren children
+		#		ul.empty()
+		#		for v in children
+		#			((v) ->
+		#				$('<li>').append($('<a href="#">').click(
+		#					-> notifier.notify('changed', v._id)
+		#				).text(v.info.title)).appendTo(ul)
+		#			)(v)
+		#		null
 			load: (_id) ->
 				id = _id
 				loadChildren id, (children) ->
-					#alert JSON.stringify children
-					me.render children
+					#me.render children
+					panel.renderChildren children
 				null
 		}
 		me
