@@ -9,6 +9,7 @@
 	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
 	loadConfsList = (callback) -> rpc 'coms.get_confs_list', [], (res, err)-> callback res.result
 	loadConfPapersList = (id, callback) -> rpc 'coms.get_conf_accepted_papers_list', [id], (res, err)-> callback res.result
+	importConfPapers = (id, list, callback) -> rpc 'lib.import_docs_from_coms', [id, list], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 	new_doc = (parent, dir, data, callback) ->
 		#alert escape(JSON.stringify(data))
@@ -152,26 +153,14 @@
 					.append(saveBtn)
 					.append(cancelBtn)
 			)()
-			importBlock = ((cancelBtn, importBtn, t, tb, td1, td2, listDiv, CB, renderConfs)->
-				cancelBtn = $('<button>Cancel</button>').click () -> showStd()
-				importBtn = $('<button>Import checked</button>').click () ->
-					alert(JSON.stringify CB.getSelected())
-				importDiv.append('<i>Import papers from conferences</i><br>')
-				importDiv.append( t=$('<table>').append( tb=$('<tbody>') ) ).append(cancelBtn).append(importBtn)
-				tb.append( td1=$('<td valign="top">') )
-				tb.append( td2=$('<td valign="top">') )
-				listDiv = $('<div>')
-				td2.append( $('<input type="checkbox">').change( (e)->
-					if $(e.target).attr('checked') then CB.selectAll()
-					else CB.deselectAll()
-				)).append('<b>Select/Deselect all</b>').append(listDiv)
+			importBlock = ((CB, cbList, selectPanel)->
+				###
 				CB = ((Constr, list)->
 					list = []
 					Constr = (v)->
 						((cb)->
 							cb = $('<input type="checkbox">')
 							list.push({elm: cb, data: v})
-							#$('<li>').append(cb = $('<input type="checkbox">')).append($('<span>').text(v.authors+' | '+v.title))
 							$('<li>').append(cb).append($('<span>').text(v.authors+' | '+v.title))
 						)()
 					Constr.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
@@ -187,29 +176,70 @@
 						)()
 					Constr
 				)()
-				renderConfs = (list) ->
-					td1.empty()
-					#for v in list
-					$.each list, (k, v)->
-						$('<li>').append($('<a href="#">').click( (e)->
-							e.preventDefault()
-							#alert(v.contid)
-							#loadConfPapersList v.contid, (list)-> alert JSON.stringify list
-							loadConfPapersList v.contid, (list)-> renderPapers list
-							#-> notifier.notify('changed', v._id)
-						).text(v.title)).appendTo(td1)
-				renderPapers = (list) ->
-					listDiv.empty()
-					CB.clearList()
-					$.each list, (k, v)->
-						elm = CB(v)
-						listDiv.append(elm)
-					#CB.selectAll()
+				###
+				CB = ((me={}, list)->
+					list = []
+					me.add = (v)->
+						((cb)->
+							cb = $('<input type="checkbox">')
+							list.push({elm: cb, data: v})
+							$('<li>').append(cb).append($('<span>').text(v.authors+' | '+v.title))
+						)()
+					me.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
+					me.deselectAll = -> $.each list, (k,v)-> v.elm.removeAttr("checked")
+					me.clearList = ->
+						list = []
+						null
+					me.getSelected = ->
+						((rez=[])->
+							$.each list, (k,v) ->
+								rez.push({context: v.data.context, papnum: v.data.papnum}) if v.elm.attr('checked')
+							rez
+						)()
+					me
+				)
+				cbList = CB()
+				selectPanel = ((tbody, td1, td2, listDiv, me)->
+					importDiv.append(
+						'<i>Import papers from conferences</i><br>'
+					).append( $('<table>').append( tbody=$('<tbody>') ) ).append(
+						$('<button>Cancel</button>').click () -> showStd()
+					).append(
+						$('<button>Import checked</button>').click () ->
+							#alert(JSON.stringify cbList.getSelected())
+							importConfPapers id, cbList.getSelected(), (result)->
+								notifier.notify('changed', id)
+								#alert(JSON.stringify result)
+					)
+					tbody.append( td1=$('<td valign="top">') )
+					tbody.append( td2=$('<td valign="top">') )
+					listDiv = $('<div>')
+					td2.append( $('<input type="checkbox">').change( (e)->
+						if $(e.target).attr('checked') then cbList.selectAll()
+						else cbList.deselectAll()
+					)).append('<b>Select/Deselect all</b>').append(listDiv)
+					me = {
+						renderConfs: (list) ->
+							td1.empty()
+							$.each list, (k, v)->
+								$('<li>').append($('<a href="#">').click( (e)->
+									e.preventDefault()
+									loadConfPapersList v.contid, (list)-> me.renderPapers list
+								).text(v.title)).appendTo(td1)
+						renderPapers: (list) ->
+							listDiv.empty()
+							cbList.clearList()
+							$.each list, (k, v)->
+								#elm = CB(v)
+								elm = cbList.add(v)
+								listDiv.append(elm)
+					}
+				)()
 				{
 					load: ->
 						loadConfsList (result)->
 							#alert JSON.stringify result
-							renderConfs result
+							selectPanel.renderConfs result
 				}
 			)()
 			childrenList = ((ul)->
