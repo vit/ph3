@@ -152,12 +152,41 @@
 					.append(saveBtn)
 					.append(cancelBtn)
 			)()
-			importBlock = ((cancelBtn, t, tb, td1, td2, renderConfs)->
+			importBlock = ((cancelBtn, importBtn, t, tb, td1, td2, listDiv, CB, renderConfs)->
 				cancelBtn = $('<button>Cancel</button>').click () -> showStd()
+				importBtn = $('<button>Import checked</button>').click () ->
+					alert(JSON.stringify CB.getSelected())
 				importDiv.append('<i>Import papers from conferences</i><br>')
-				importDiv.append( t=$('<table>').append( tb=$('<tbody>') ) ).append(cancelBtn)
+				importDiv.append( t=$('<table>').append( tb=$('<tbody>') ) ).append(cancelBtn).append(importBtn)
 				tb.append( td1=$('<td valign="top">') )
 				tb.append( td2=$('<td valign="top">') )
+				listDiv = $('<div>')
+				td2.append( $('<input type="checkbox">').change( (e)->
+					if $(e.target).attr('checked') then CB.selectAll()
+					else CB.deselectAll()
+				)).append('<b>Select/Deselect all</b>').append(listDiv)
+				CB = ((Constr, list)->
+					list = []
+					Constr = (v)->
+						((cb)->
+							cb = $('<input type="checkbox">')
+							list.push({elm: cb, data: v})
+							#$('<li>').append(cb = $('<input type="checkbox">')).append($('<span>').text(v.authors+' | '+v.title))
+							$('<li>').append(cb).append($('<span>').text(v.authors+' | '+v.title))
+						)()
+					Constr.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
+					Constr.deselectAll = -> $.each list, (k,v)-> v.elm.removeAttr("checked")
+					Constr.clearList = ->
+						list = []
+						null
+					Constr.getSelected = ->
+						((rez=[])->
+							$.each list, (k,v) ->
+								rez.push({context: v.data.context, papnum: v.data.papnum}) if v.elm.attr('checked')
+							rez
+						)()
+					Constr
+				)()
 				renderConfs = (list) ->
 					td1.empty()
 					#for v in list
@@ -170,15 +199,12 @@
 							#-> notifier.notify('changed', v._id)
 						).text(v.title)).appendTo(td1)
 				renderPapers = (list) ->
-					td2.empty()
+					listDiv.empty()
+					CB.clearList()
 					$.each list, (k, v)->
-						$('<li>').append($('<a href="#">').click( (e)->
-							e.preventDefault()
-							#alert(v.contid)
-						#).text(JSON.stringify v)).appendTo(td2)
-						#).text(v.title)).appendTo(td2)
-						).text(v.authors+' | '+v.title)).appendTo(td2)
-						#).text(v.title+v.finaldecision)).appendTo(td2)
+						elm = CB(v)
+						listDiv.append(elm)
+					#CB.selectAll()
 				{
 					load: ->
 						loadConfsList (result)->
