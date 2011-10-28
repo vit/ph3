@@ -10,10 +10,9 @@
 	loadConfsList = (callback) -> rpc 'coms.get_confs_list', [], (res, err)-> callback res.result
 	loadConfPapersList = (id, callback) -> rpc 'coms.get_conf_accepted_papers_list', [id], (res, err)-> callback res.result
 	importConfPapers = (id, list, callback) -> rpc 'lib.import_docs_from_coms', [id, list], (res, err)-> callback res.result
+	removeDocs = (list, callback) -> rpc 'lib.remove_docs', [list], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
-	new_doc = (parent, dir, data, callback) ->
-		#alert escape(JSON.stringify(data))
-		rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
+	new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 
 	DocPath = (-> (div) ->
 		currInfo = null
@@ -185,7 +184,8 @@
 				selectPanel = ((tbody, td1, td2, listDiv, me)->
 					importDiv.append(
 						'<i>Import papers from conferences</i><br>'
-					).append( $('<table>').append( tbody=$('<tbody>') ) ).append(
+					).append( $('<table>').append( tbody=$('<tbody>') ) )
+					.append(
 						#$('<button>Cancel</button>').click () -> showStd()
 						$('<button>Hide import panel</button>').click () -> showStd()
 					).append(
@@ -233,7 +233,6 @@
 			)()
 			childrenList = ((cbList, ul, div)->
 				cbList = CB()
-				#ul = $('<ul>').appendTo(listDiv)
 				div = $('<div>')
 				listDiv
 					.append('<br>')
@@ -242,24 +241,32 @@
 					.append( $('<input type="checkbox">').change( (e)->
 						if $(e.target).attr('checked') then cbList.selectAll()
 						else cbList.deselectAll()
-					)).append('<b>Select/Deselect all</b>').append(div)
+					)).append('<b>Select/Deselect all</b>')
+					.append(div)
+					.append(
+						$('<button>Delete checked</button>').click () ->
+							alert(JSON.stringify cbList.getSelected())
+							removeDocs cbList.getSelected(), (result)->
+								notifier.notify('changed', id)
+					)
 				div.css('overflow', 'scroll').css('height', '250pt')
 				{
 					render: (list) ->
 						div.empty()
+						cbList.clearList()
 						$.each list, (k, v)->
-						#	cbList.add({
-						#		title: v.info.title,
-						#		data: {_id: v._id},
-						#		onClick: (e)->
-						#			e.preventDefault()
-						#			notifier.notify('changed', v._id)
-						#
-						#	}).appendTo(div)
-							$('<li>').append($('<a href="#">').click( (e)->
-								#e.preventDefault()
-								notifier.notify('changed', v._id)
-							).text(v.info.title)).appendTo(div)
+							cbList.add({
+								title: v.info.title,
+								data: {_id: v._id},
+								onClick: (e)->
+								#	e.preventDefault()
+									notifier.notify('changed', v._id)
+						
+							}).appendTo(div)
+						#	$('<li>').append($('<a href="#">').click( (e)->
+						#		#e.preventDefault()
+						#		notifier.notify('changed', v._id)
+						#	).text(v.info.title)).appendTo(div)
 				}
 			)()
 			showStd()
@@ -269,22 +276,10 @@
 					childrenList.render list
 			}
 		)()
-		#ul = $('<ul>').appendTo(div)
 		me = {
-		#	render: (children) -> 
-		#		panel.renderChildren children
-		#		ul.empty()
-		#		for v in children
-		#			((v) ->
-		#				$('<li>').append($('<a href="#">').click(
-		#					-> notifier.notify('changed', v._id)
-		#				).text(v.info.title)).appendTo(ul)
-		#			)(v)
-		#		null
 			load: (_id) ->
 				id = _id
 				loadChildren id, (children) ->
-					#me.render children
 					panel.renderChildren children
 				null
 		}
