@@ -1,4 +1,71 @@
 
+///*
+$bgcolor: white;
+
+//$textcolor2: rgb(75,0,130); //indigo
+//$textcolor2: rgb(18,10,143); // Ultramarine
+//$textcolor2: rgb(8,37,103); // Dark sapphire
+$textcolor2: rgb(0,15,137); // Phthalocyanine Blue
+//$textcolor2: rgb(0,0,128); // Blue
+//$textcolor2: rgb(0,128,128);
+//$textcolor2:gb(255,36,0);
+
+$textcolor: rgb(0,0,0);
+//$textcolor: rgb(137,121,0);
+//$textcolor: rgb(16,137,0);
+//$textcolor: rgb(96,100,137);
+
 body.lib {
-//	background-color: yellow;
+	background-color: $bgcolor;
+	color: $textcolor;
+	.top {
+		background-color: $textcolor;
+		.nav {
+			ul {
+				li {
+					a {
+						color: $bgcolor;
+					}
+					a:hover, a.current {
+						background-color: $textcolor2;
+					}
+				}
+			}
+		}
+	}
+	> .site {
+		> .title {
+			h1 {
+				color: $textcolor2;
+			}
+		}
+		> .page {
+		}
+		a {
+			color: $textcolor2;
+		}
+		.nav {
+			color: $bgcolor;
+			background-color: $textcolor;
+			ul {
+				li {
+					a {
+						color: $bgcolor;
+					}
+					a:hover, a.current {
+						background-color: $textcolor2;
+					}
+				}
+			}
+		}
+	}
+	.bottom {
+		border-top: 2px solid $textcolor2;
+		a {
+			color: $textcolor2;
+		}
+	}
 }
+
+//*/
+

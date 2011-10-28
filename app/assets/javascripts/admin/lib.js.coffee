@@ -153,57 +153,41 @@
 					.append(saveBtn)
 					.append(cancelBtn)
 			)()
-			importBlock = ((CB, cbList, selectPanel)->
-				###
-				CB = ((Constr, list)->
+			CB = ((me={}, list)->
+				list = []
+				me.add = (v)->
+					((cb)->
+						cb = $('<input type="checkbox">')
+						list.push({elm: cb, data: v.data})
+						$('<li>').append(cb).append(
+							if(v.onClick)
+								$('<a href="#">').text(v.title).click (e)->
+									e.preventDefault()
+									v.onClick(e)
+							else $('<span>').text(v.title)
+						)
+					)()
+				me.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
+				me.deselectAll = -> $.each list, (k,v)-> v.elm.removeAttr("checked")
+				me.clearList = ->
 					list = []
-					Constr = (v)->
-						((cb)->
-							cb = $('<input type="checkbox">')
-							list.push({elm: cb, data: v})
-							$('<li>').append(cb).append($('<span>').text(v.authors+' | '+v.title))
-						)()
-					Constr.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
-					Constr.deselectAll = -> $.each list, (k,v)-> v.elm.removeAttr("checked")
-					Constr.clearList = ->
-						list = []
-						null
-					Constr.getSelected = ->
-						((rez=[])->
-							$.each list, (k,v) ->
-								rez.push({context: v.data.context, papnum: v.data.papnum}) if v.elm.attr('checked')
-							rez
-						)()
-					Constr
-				)()
-				###
-				CB = ((me={}, list)->
-					list = []
-					me.add = (v)->
-						((cb)->
-							cb = $('<input type="checkbox">')
-							list.push({elm: cb, data: v})
-							$('<li>').append(cb).append($('<span>').text(v.authors+' | '+v.title))
-						)()
-					me.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
-					me.deselectAll = -> $.each list, (k,v)-> v.elm.removeAttr("checked")
-					me.clearList = ->
-						list = []
-						null
-					me.getSelected = ->
-						((rez=[])->
-							$.each list, (k,v) ->
-								rez.push({context: v.data.context, papnum: v.data.papnum}) if v.elm.attr('checked')
-							rez
-						)()
-					me
-				)
+					null
+				me.getSelected = ->
+					((rez=[])->
+						$.each list, (k,v) ->
+							rez.push(v.data) if v.elm.attr('checked')
+						rez
+					)()
+				me
+			)
+			importBlock = ((cbList, selectPanel)->
 				cbList = CB()
 				selectPanel = ((tbody, td1, td2, listDiv, me)->
 					importDiv.append(
 						'<i>Import papers from conferences</i><br>'
 					).append( $('<table>').append( tbody=$('<tbody>') ) ).append(
-						$('<button>Cancel</button>').click () -> showStd()
+						#$('<button>Cancel</button>').click () -> showStd()
+						$('<button>Hide import panel</button>').click () -> showStd()
 					).append(
 						$('<button>Import checked</button>').click () ->
 							#alert(JSON.stringify cbList.getSelected())
@@ -218,6 +202,7 @@
 						if $(e.target).attr('checked') then cbList.selectAll()
 						else cbList.deselectAll()
 					)).append('<b>Select/Deselect all</b>').append(listDiv)
+					listDiv.css('overflow', 'scroll').css('height', '250pt')
 					me = {
 						renderConfs: (list) ->
 							td1.empty()
@@ -231,7 +216,11 @@
 							cbList.clearList()
 							$.each list, (k, v)->
 								#elm = CB(v)
-								elm = cbList.add(v)
+								#elm = cbList.add(v)
+								elm = cbList.add({
+									title: v.authors+' | '+v.title,
+									data: {context: v.context, papnum: v.papnum}
+								})
 								listDiv.append(elm)
 					}
 				)()
@@ -242,16 +231,35 @@
 							selectPanel.renderConfs result
 				}
 			)()
-			childrenList = ((ul)->
-				ul = $('<ul>').appendTo(listDiv)
+			childrenList = ((cbList, ul, div)->
+				cbList = CB()
+				#ul = $('<ul>').appendTo(listDiv)
+				div = $('<div>')
+				listDiv
+					.append('<br>')
+					.append('<i>Children list</i>')
+					.append('<br>')
+					.append( $('<input type="checkbox">').change( (e)->
+						if $(e.target).attr('checked') then cbList.selectAll()
+						else cbList.deselectAll()
+					)).append('<b>Select/Deselect all</b>').append(div)
+				div.css('overflow', 'scroll').css('height', '250pt')
 				{
 					render: (list) ->
-						ul.empty()
+						div.empty()
 						$.each list, (k, v)->
+						#	cbList.add({
+						#		title: v.info.title,
+						#		data: {_id: v._id},
+						#		onClick: (e)->
+						#			e.preventDefault()
+						#			notifier.notify('changed', v._id)
+						#
+						#	}).appendTo(div)
 							$('<li>').append($('<a href="#">').click( (e)->
-								e.preventDefault()
+								#e.preventDefault()
 								notifier.notify('changed', v._id)
-							).text(v.info.title)).appendTo(ul)
+							).text(v.info.title)).appendTo(div)
 				}
 			)()
 			showStd()
