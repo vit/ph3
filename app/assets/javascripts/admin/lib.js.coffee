@@ -49,25 +49,30 @@
 	DocInfo = (-> (div) ->
 		currInfo = null
 		id = null
-		panel = (->
+		###
+		panel = ((viewDiv, viewTitle, editTitle, viewSubtitle, editSubtitle, viewAbstract, editAbstract, editBtn, saveBtn, cancelBtn, showView, showEdit)->
 			viewDiv = $('<div>').appendTo div
 			viewTitle = $('<span>')
-			editTitle = $('<input type="text" wwidth="100%">').width('100%')
+			editTitle = $('<input type="text">').width('100%')
+			viewSubtitle = $('<span>')
+			editSubtitle = $('<input type="text">').width('100%')
 			viewAbstract = $('<span>')
-			editAbstract = $('<textarea wwidth="100%">').width('100%')
+			editAbstract = $('<textarea>').width('100%')
 			editBtn = $('<button>Edit</button>').click () ->
 				showEdit()
 			saveBtn = $('<button>Save</button>').click () ->
 				currInfo.title = editTitle.val()
+				currInfo.subtitle = editSubtitle.val()
 				currInfo.abstract = editAbstract.val()
 				showView()
 			cancelBtn = $('<button>Cancel</button>').click () ->
 				showView()
-			viewElms = [viewTitle, viewAbstract, editBtn]
-			editElms = [editTitle, editAbstract, saveBtn, cancelBtn]
+			viewElms = [viewTitle, viewSubtitle, viewAbstract, editBtn]
+			editElms = [editTitle, editSubtitle, editAbstract, saveBtn, cancelBtn]
 			showView = ->
 				if id
 					viewTitle.text(currInfo.title)
+					viewSubtitle.text(currInfo.subtitle)
 					viewAbstract.text(currInfo.abstract)
 					elm.show() for elm in viewElms
 				else
@@ -76,18 +81,97 @@
 			showEdit = ->
 				if id
 					editTitle.val(currInfo.title)
+					editSubtitle.val(currInfo.subtitle)
 					editAbstract.val(currInfo.abstract)
 					elm.show() for elm in editElms
 				else
 					elm.hide() for elm in editElms
 				elm.hide() for elm in viewElms
-			viewDiv.append('<b>Title:</b> ').append(viewTitle).append(editTitle)
+			viewDiv
+				.append('<b>Title:</b> ').append(viewTitle).append(editTitle)
+				.append('<br>')
+				.append('<b>Subtitle:</b> ').append(viewSubtitle).append(editSubtitle)
 				.append('<br>')
 				.append('<b>Abstract:</b> ').append(viewAbstract).append(editAbstract)
 				.append('<br>')
 				.append(editBtn)
 				.append(saveBtn)
 				.append(cancelBtn)
+			#showView()
+			{
+				showView: showView
+			}
+		)()
+		###
+		panel = ((viewBlock, editBloc, showView, showEdit)->
+			viewBlock = ((me, div, title, subtitle, abstract, editBtn)->
+				div = $('<div>')
+				title = $('<span>')
+				subtitle = $('<span>')
+				abstract = $('<span>')
+				editBtn = $('<button>Edit</button>').click () ->
+					showEdit()
+				div
+					.append('<b>Title:</b> ').append(title)
+					.append('<br>')
+					.append('<b>Subtitle:</b> ').append(subtitle)
+					.append('<br>')
+					.append('<b>Abstract:</b> ').append(abstract)
+					.append('<br>')
+					.append(editBtn)
+				me = {
+					div: div
+					show: ->
+						if id && currInfo
+							title.text(currInfo.title)
+							subtitle.text(currInfo.subtitle)
+							abstract.text(currInfo.abstract)
+							div.show()
+						else div.hide()
+					hide: ->
+						div.hide()
+				}
+			)()
+			editBlock = ((me, div, title, subtitle, abstract, saveBtn, cancelBtn)->
+				div = $('<div>')
+				title = $('<input type="text">').width('100%')
+				subtitle = $('<input type="text">').width('100%')
+				abstract = $('<textarea>').width('100%')
+				saveBtn = $('<button>Save</button>').click () ->
+					currInfo.title = title.val()
+					currInfo.subtitle = subtitle.val()
+					currInfo.abstract = abstract.val()
+					showView()
+				cancelBtn = $('<button>Cancel</button>').click () ->
+					showView()
+				div
+					.append('<b>Title:</b> ').append(title)
+					.append('<br>')
+					.append('<b>Subtitle:</b> ').append(subtitle)
+					.append('<br>')
+					.append('<b>Abstract:</b> ').append(abstract)
+					.append('<br>')
+					.append(saveBtn).append(cancelBtn)
+				me = {
+					div: div
+					show: ->
+						if id && currInfo
+							title.val(currInfo.title)
+							subtitle.val(currInfo.subtitle)
+							abstract.val(currInfo.abstract)
+							div.show()
+						else div.hide()
+					hide: ->
+						div.hide()
+				}
+			)()
+			div.append(viewBlock.div).append(editBlock.div)
+			showView = ->
+				viewBlock.show()
+				editBlock.hide()
+			showEdit = ->
+				viewBlock.hide()
+				editBlock.show()
 			#showView()
 			{
 				showView: showView

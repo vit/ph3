@@ -12,5 +12,6 @@ bin/
 *~
 *.swp
 *.swo
+*.swn
 *.core
 
