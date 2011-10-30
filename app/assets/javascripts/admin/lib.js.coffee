@@ -13,6 +13,7 @@
 	removeDocs = (list, callback) -> rpc 'lib.remove_docs', [list], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 	new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
+	saveInfo = (id, info, callback) -> rpc 'lib.set_doc_info', [id, info], (res, err)-> callback res.result
 
 	DocPath = (-> (div) ->
 		currInfo = null
@@ -25,8 +26,7 @@
 				).text(v.title)).appendTo(div)
 			render = (list) ->
 				div.empty()
-				#renderOne {_id: null, title: 'Library'}
-				list.unshift {_id: null, title: 'Library'}
+				list.unshift {_id: null, title: 'Root'}
 				for v in list
 					renderOne v
 					$('<span> / </span>').appendTo(div)
@@ -49,68 +49,14 @@
 	DocInfo = (-> (div) ->
 		currInfo = null
 		id = null
-		###
-		panel = ((viewDiv, viewTitle, editTitle, viewSubtitle, editSubtitle, viewAbstract, editAbstract, editBtn, saveBtn, cancelBtn, showView, showEdit)->
-			viewDiv = $('<div>').appendTo div
-			viewTitle = $('<span>')
-			editTitle = $('<input type="text">').width('100%')
-			viewSubtitle = $('<span>')
-			editSubtitle = $('<input type="text">').width('100%')
-			viewAbstract = $('<span>')
-			editAbstract = $('<textarea>').width('100%')
-			editBtn = $('<button>Edit</button>').click () ->
-				showEdit()
-			saveBtn = $('<button>Save</button>').click () ->
-				currInfo.title = editTitle.val()
-				currInfo.subtitle = editSubtitle.val()
-				currInfo.abstract = editAbstract.val()
-				showView()
-			cancelBtn = $('<button>Cancel</button>').click () ->
-				showView()
-			viewElms = [viewTitle, viewSubtitle, viewAbstract, editBtn]
-			editElms = [editTitle, editSubtitle, editAbstract, saveBtn, cancelBtn]
-			showView = ->
-				if id
-					viewTitle.text(currInfo.title)
-					viewSubtitle.text(currInfo.subtitle)
-					viewAbstract.text(currInfo.abstract)
-					elm.show() for elm in viewElms
-				else
-					elm.hide() for elm in viewElms
-				elm.hide() for elm in editElms
-			showEdit = ->
-				if id
-					editTitle.val(currInfo.title)
-					editSubtitle.val(currInfo.subtitle)
-					editAbstract.val(currInfo.abstract)
-					elm.show() for elm in editElms
-				else
-					elm.hide() for elm in editElms
-				elm.hide() for elm in viewElms
-			viewDiv
-				.append('<b>Title:</b> ').append(viewTitle).append(editTitle)
-				.append('<br>')
-				.append('<b>Subtitle:</b> ').append(viewSubtitle).append(editSubtitle)
-				.append('<br>')
-				.append('<b>Abstract:</b> ').append(viewAbstract).append(editAbstract)
-				.append('<br>')
-				.append(editBtn)
-				.append(saveBtn)
-				.append(cancelBtn)
-			#showView()
-			{
-				showView: showView
-			}
-		)()
-		###
-		panel = ((viewBlock, editBloc, showView, showEdit)->
+		panel = ((viewBlock, editBlock, showView, showEdit)->
+			div.append($('<h3>').text('Info'))
 			viewBlock = ((me, div, title, subtitle, abstract, editBtn)->
 				div = $('<div>')
 				title = $('<span>')
 				subtitle = $('<span>')
 				abstract = $('<span>')
-				editBtn = $('<button>Edit</button>').click () ->
-					showEdit()
+				editBtn = $('<button>Edit</button>').click () -> showEdit()
 				div
 					.append('<b>Title:</b> ').append(title)
 					.append('<br>')
@@ -132,24 +78,29 @@
 						div.hide()
 				}
 			)()
-			editBlock = ((me, div, title, subtitle, abstract, saveBtn, cancelBtn)->
+			editBlock = ((me, div, title, subtitle, abstract, dir, saveBtn, cancelBtn)->
 				div = $('<div>')
 				title = $('<input type="text">').width('100%')
 				subtitle = $('<input type="text">').width('100%')
 				abstract = $('<textarea>').width('100%')
+				dir = $('<input type="checkbox">').width('100%')
 				saveBtn = $('<button>Save</button>').click () ->
 					currInfo.title = title.val()
 					currInfo.subtitle = subtitle.val()
 					currInfo.abstract = abstract.val()
+					currInfo.dir = if dir.attr("checked") then true else false
+					alert(JSON.stringify(currInfo))
+					saveInfo id, currInfo, (result)->
 					showView()
-				cancelBtn = $('<button>Cancel</button>').click () ->
-					showView()
+				cancelBtn = $('<button>Cancel</button>').click () -> showView()
 				div
 					.append('<b>Title:</b> ').append(title)
 					.append('<br>')
 					.append('<b>Subtitle:</b> ').append(subtitle)
 					.append('<br>')
 					.append('<b>Abstract:</b> ').append(abstract)
+					.append('<br>')
+					.append('<b>Directory:</b> ').append(dir)
 					.append('<br>')
 					.append(saveBtn).append(cancelBtn)
 				me = {
@@ -159,6 +110,7 @@
 							title.val(currInfo.title)
 							subtitle.val(currInfo.subtitle)
 							abstract.val(currInfo.abstract)
+							if currInfo.dir then dir.attr('checked', 'checked') else dir.removeAttr('checked')
 							div.show()
 						else div.hide()
 					hide: ->
@@ -179,15 +131,16 @@
 		)()
 		me = {
 			render: (info) -> 
-			#	if info
-				#currInfo = info || {title: '', abstract: ''}
 				currInfo = info
 				panel.showView()
 				null
 			load: (_id) ->
 				id = _id
-				loadInfo id, (info) ->
-					me.render info
+				if id
+					loadInfo id, (info) -> me.render info
+					div.show()
+				else
+					div.hide()
 				null
 		}
 		me
@@ -372,7 +325,7 @@
 	DocPage = (-> (container) ->
 		pageDiv = $('<div></div>').appendTo container
 		pathDiv = $('<div></div>').appendTo( pageDiv.append($('<div>')) )
-		infoDiv = $('<div></div>').appendTo( pageDiv.append($('<div>').append($('<h3>').text('Info'))) )
+		infoDiv = $('<div></div>').appendTo( pageDiv )
 		childrenDiv = $('<div></div>').appendTo( pageDiv.append($('<div>').append($('<h3>').text('Children'))) )
 		docPath = new DocPath(pathDiv)
 		docInfo = new DocInfo(infoDiv)
