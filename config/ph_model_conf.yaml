@@ -1,6 +1,8 @@
 
 
 development:
+        coms:
+                papers_path: /home/www/virtual/physcon.ru/ph1/entry/coms/papers/
         pg:
                 conn:
                         dbname: db00060892
@@ -15,6 +17,8 @@ development:
 test:
 
 production:
+        coms:
+                papers_path: /home/www/virtual/physcon.ru/ph1/entry/coms/papers/
         pg:
                 conn:
                         dbname: db00060892

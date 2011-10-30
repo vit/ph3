@@ -21,6 +21,9 @@
     %div
      %b Abstract:
      %i!= nl2br h(@doc['abstract'])
+    %div
+     %b File:
+     %i= nl2br @file_id.inspect
   %div
    %ul
     -@children.each do |elm|

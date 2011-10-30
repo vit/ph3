@@ -89,8 +89,9 @@
 					currInfo.subtitle = subtitle.val()
 					currInfo.abstract = abstract.val()
 					currInfo.dir = if dir.attr("checked") then true else false
-					alert(JSON.stringify(currInfo))
+					#alert(JSON.stringify(currInfo))
 					saveInfo id, currInfo, (result)->
+					#	alert(JSON.stringify result)
 					showView()
 				cancelBtn = $('<button>Cancel</button>').click () -> showView()
 				div
