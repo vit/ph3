@@ -5,7 +5,7 @@
  %div
   -#=@children.inspect
   -#=@ancestors.inspect
-  %div
+  .page
    -@ancestors.each do |elm|
     %a{href: "doc?id=#{elm['_id']}"}= elm['title']
     \/
@@ -17,13 +17,15 @@
      %i= @doc['title']
     %div
      %b Authors:
-     %i= @doc['authors']
+     -#%i= @authors.inspect
+     %i= @authors.map{|a| a['fname']+' '+a['lname'] }.join(', ')
     %div
      %b Abstract:
      %i!= nl2br h(@doc['abstract'])
     %div
      %b File:
-     %i= nl2br @file_id.inspect
+     -#%i= nl2br @file_id.inspect
+     %a{href: "file?id=#{@file_id}"} download
   %div
    %ul
     -@children.each do |elm|
