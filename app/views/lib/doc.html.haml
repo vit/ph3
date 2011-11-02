@@ -2,31 +2,26 @@
 -content_for :page_title, 'Library document'
 
 -set_content_for :content do
- %div
+ .doc_page
   -#=@children.inspect
   -#=@ancestors.inspect
-  .page
+  .path
    -@ancestors.each do |elm|
     %a{href: "doc?id=#{elm['_id']}"}= elm['title']
     \/
   -if @doc
-   %br
-   %div
-    %div
-     %b Title:
-     %i= @doc['title']
-    %div
-     %b Authors:
-     -#%i= @authors.inspect
-     %i= @authors.map{|a| a['fname']+' '+a['lname'] }.join(', ')
-    %div
-     %b Abstract:
-     %i!= nl2br h(@doc['abstract'])
-    %div
-     %b File:
-     -#%i= nl2br @file_id.inspect
-     %a{href: "file?id=#{@file_id}"} download
-  %div
+   .info
+    .title
+     %h2= @doc['title']
+    .authors
+     %b= @authors.map{|a| a['fname']+' '+a['lname'] }.join(', ')
+    .abstract
+     %span!= nl2br h(@doc['abstract'])
+    - if @file_id
+     %div
+      %b File:
+      %a{href: "file?id=#{@file_id}"} download
+  .children
    %ul
     -@children.each do |elm|
      %li

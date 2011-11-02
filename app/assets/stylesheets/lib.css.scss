@@ -15,7 +15,14 @@ $textcolor: rgb(0,0,0);
 //$textcolor: rgb(16,137,0);
 //$textcolor: rgb(96,100,137);
 
+@mixin font1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+@mixin font2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
 body.lib {
+	.clear {clear: both;}
 	background-color: $bgcolor;
 	color: $textcolor;
 	.top {
@@ -40,6 +47,59 @@ body.lib {
 			}
 		}
 		> .page {
+			> .index_page {
+				> .top_dirs {
+					padding: 0.8em 0 0em 0;
+					> .wrap {
+						text-align: center;
+						width: 49%;
+						float: left;
+						> .block {
+							width: auto;
+							margin: auto;
+							display: inline-block;
+							.link { font-size: 1.2em; }
+							.info { font-size: 0.8em; }
+						}
+					}
+				}
+				> .text_after {
+					font-size: 0.8em;
+					text-align: center;
+					padding: 1em 0 0 0;
+				}
+			}
+		}
+		> .doc_page {
+			.info {
+				.title {
+					@include font2;
+					font: {
+						//size: 160%;
+						weight: bold;
+					}
+					margin: 0.8em 0 0.8em 0;
+					text-align: center;
+				}
+				.authors {
+					@include font2;
+					font: {
+						//size: 80%;
+						size: 0.8em;
+						weight: bold;
+					}
+					margin: 0.8em 0 0.8em 0;
+					text-align: center;
+				}
+				.abstract {
+					@include font1;
+					//font: {
+						//size: 100%;
+						//weight: bold;
+					//}
+					margin: 0.8em 0 0.8em 0;
+				}
+			}
 		}
 		a {
 			color: $textcolor2;

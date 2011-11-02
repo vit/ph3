@@ -4,8 +4,57 @@
 
 -set_content_for :content do
  .page
-  %h2 The IPACS Library
-  .page-body
+  -#%h2 The IPACS Library
+  .index_page
+   .top_dirs
+    .wrap
+     .block
+      .link
+       %b
+        %a{href: 'http://lib2.physcon.ru/doc?id=c00b56e56e8d'} Conferences
+        materials
+      .info
+       %i
+        To participate in IPACS conferences see 
+        %span
+        %a{href: 'http://conf.physcon.ru/'}>< conferences list
+        \.
+    .wrap
+     .block
+      .link
+       %b
+        %a{href: 'http://lib2.physcon.ru/doc?id=e18e82df47ef'} CAP Journal
+        publications
+      .info
+       %i
+        See
+        %a{href: 'http://cap.physcon.ru/'} journal site
+        for more details.
+    -#.clear
+   -#.top_dirs
+    .confs
+     .link
+      %b
+       %a{href: 'http://lib2.physcon.ru/doc?id=c00b56e56e8d'} Conferences
+       materials
+     .info
+      To participate in IPACS conferences see 
+      %span
+      %a{href: 'http://conf.physcon.ru/'}>< conferences list
+      \.
+    .journal
+     .link
+      %b
+       %a{href: 'http://lib2.physcon.ru/doc?id=e18e82df47ef'} CAP Journal
+       publications
+     .info
+      See
+      %a{href: 'http://cap.physcon.ru/'} journal site
+      for more details.
+    .clear
+   .clear
+   .text_after Comments and suggestions can be sent to ipacs_at_physcon.ru 
+  -#.page-body
    %table{width: "100%", cellpadding: 3, cellspacing: 3}
     %tr
      %td{align: 'center'}
