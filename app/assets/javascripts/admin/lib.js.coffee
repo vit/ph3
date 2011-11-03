@@ -12,7 +12,8 @@
 	importConfPapers = (id, list, callback) -> rpc 'lib.import_docs_from_coms', [id, list], (res, err)-> callback res.result
 	removeDocs = (list, callback) -> rpc 'lib.remove_docs', [list], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
-	new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
+	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
+	new_doc = (parent, data, callback) -> rpc 'lib.new_doc', [parent, data], (res, err)-> callback res.result
 	saveInfo = (id, info, callback) -> rpc 'lib.set_doc_info', [id, info], (res, err)-> callback res.result
 
 	DocPath = (-> (div) ->
@@ -175,7 +176,7 @@
 				addTitle = $('<input type="text">').width('100%')
 				addAbstract = $('<textarea>').width('100%')
 				saveBtn = $('<button>Save</button>').click () ->
-					new_doc id, false, {
+					new_doc id, {
 						title: addTitle.val(),
 						abstract: addAbstract.val()
 					}, (result) ->

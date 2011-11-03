@@ -81,6 +81,15 @@ body.lib {
 					margin: 0.8em 0 0.8em 0;
 					text-align: center;
 				}
+				.subtitle {
+					@include font1;
+				//	font: {
+						//size: 160%;
+						//weight: bold;
+				//	}
+					margin: 0.8em 0 0.8em 0;
+					text-align: center;
+				}
 				.authors {
 					@include font2;
 					font: {
@@ -98,6 +107,14 @@ body.lib {
 						//weight: bold;
 					//}
 					margin: 0.8em 0 0.8em 0;
+				}
+			}
+			.children {
+				li {
+					margin: 0em 0 0.2em 0;
+					.subtitle {
+						font-size: 0.8em;
+					}
 				}
 			}
 		}

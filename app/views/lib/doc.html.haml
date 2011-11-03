@@ -13,6 +13,10 @@
    .info
     .title
      %h2= @doc['title']
+    .subtitle
+     %span= @doc['subtitle']
+    .meta
+     %span= @meta.inspect
     .authors
      %b= @authors.map{|a| a['fname']+' '+a['lname'] }.join(', ')
     .abstract
@@ -25,7 +29,11 @@
    %ul
     -@children.each do |elm|
      %li
-      %a{href: "doc?id=#{elm['_id']}"}= elm['info']['title']
+      .title
+       %a{href: "doc?id=#{elm['_id']}"}= elm['info']['title']
+      -if elm['info']['subtitle']
+       .subtitle
+        %i= elm['info']['subtitle']
 
 -render :file => 'lib/layout'
 
