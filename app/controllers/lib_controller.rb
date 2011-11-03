@@ -9,7 +9,7 @@ class LibController < ApplicationController
 		id = params['id'] && params['id'].to_s.length>0 ? params['id'] : nil
 		redirect_to '/' unless id
 		@doc = Physcon::App.model.lib.get_doc_info id
-		@meta = Physcon::App.model.lib.get_doc_meta id
+		#@meta = Physcon::App.model.lib.get_doc_meta id
 		@children = Physcon::App.model.lib.get_doc_children id
 		@authors = Physcon::App.model.lib.get_doc_authors id
 		@ancestors = Physcon::App.model.lib.get_doc_ancestors id

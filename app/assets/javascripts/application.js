@@ -12,6 +12,5 @@
 // q = require lib
 //= require rpc
 // q = require_tree .
-//= require admin/lib
 //
 

@@ -15,7 +15,7 @@
      %h2= @doc['title']
     .subtitle
      %span= @doc['subtitle']
-    .meta
+    -#.meta
      %span= @meta.inspect
     .authors
      %b= @authors.map{|a| a['fname']+' '+a['lname'] }.join(', ')
