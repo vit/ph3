@@ -17,6 +17,8 @@ $textcolor: rgb(0,0,0);
 	font-family: Georgia, "Times New Roman", Times, serif;
 }
 body.any {
+	//* { zoom: 1; }
+	div { zoom: 1; }
 	margin: 0 5% 0 5%;
 	background-color: $bgcolor;
 	color: $textcolor;
@@ -28,15 +30,18 @@ body.any {
 		background-color: $textcolor;
 		.nav {
 			font: { size: 0.8em; }
-				float: left;
+			//zoom: 1;
+			float: left;
 			ul {
 				margin: 0;
 				padding: 0;
 				float: left;
+				//zoom: 1;
 				li {
 					display: inline;
 					a {
 						float: left;
+						//zoom: 1;
 						color: $bgcolor;
 					//	background-color: $textcolor;
 						text-decoration: none;
@@ -108,6 +113,7 @@ body.any {
 			text-decoration: underline;
 		}
 		.nav {
+			//zoom: 1;
 		//	border-radius: 1em;
 			float: right;
 			//float: left;
