@@ -112,8 +112,27 @@ body.lib {
 			.children {
 				li {
 					margin: 0em 0 0.2em 0;
+					.title {
+						@include font2;
+					//	font: {
+							//size: 160%;
+						//	weight: bold;
+					//	}
+						//margin: 0.8em 0 0.8em 0;
+						//text-align: center;
+					}
 					.subtitle {
 						font-size: 0.8em;
+					}
+					.authors {
+						@include font2;
+						font: {
+							//size: 80%;
+							size: 0.8em;
+							weight: bold;
+						}
+						//margin: 0.8em 0 0.8em 0;
+						//text-align: center;
 					}
 				}
 			}

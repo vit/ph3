@@ -29,6 +29,9 @@
    %ul
     -@children.each do |elm|
      %li
+      -if elm['authors']
+       .authors
+        %span= elm['authors'].inject([]){|acc, a| acc << a['fname']+' '+a['lname']; acc}.join(', ')
       .title
        %a{href: "doc?id=#{elm['_id']}"}= elm['info']['title']
       -if elm['info']['subtitle']
