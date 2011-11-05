@@ -8,8 +8,9 @@
    %script{src: "/assets/#{s}", type: "text/javascript"}
   = yield(:scripts) if content_for?(:scripts)
   = csrf_meta_tags
+  = render 'layouts/ga'
  -@site_id = content_for :site_id
- =yield(:ga) if content_for?(:ga)
+ -#=yield(:ga) if content_for?(:ga)
  %body{class: [@site_id, :any]}
   =render 'layouts/topnav'
   =content_for?(:content) ? yield(:content) : yield
