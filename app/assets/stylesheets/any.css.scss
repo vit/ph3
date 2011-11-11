@@ -112,32 +112,43 @@ body.any {
 		a:hover {
 			text-decoration: underline;
 		}
-		.nav {
-			//zoom: 1;
-		//	border-radius: 1em;
+		.nav_column {
 			float: right;
-			//float: left;
-			color: $bgcolor;
-			background-color: $textcolor;
-			//margin-right: 0.6em;
-			margin-left: 0.6em;
 			margin-bottom: 0.2em;
-			ul {
-				margin: 0;
-				padding: 0;
-				li {
-					list-style: none;
-					width: auto;
-					a {
-						display: block;
-						color: $bgcolor;
-						text-decoration: none;
-						//padding: 0.2em 0.8em;
-						padding: 0.5em 1em;
-						font: { size: 0.8em; }
+			.nav {
+			//	float: right;
+				color: $bgcolor;
+				background-color: $textcolor;
+				margin-left: 0.6em;
+				//margin-bottom: 0.2em;
+				margin-bottom: 0;
+				ul {
+					margin: 0;
+					padding: 0;
+					li {
+						list-style: none;
+						width: auto;
+						a {
+							display: block;
+							color: $bgcolor;
+							text-decoration: none;
+							padding: 0.5em 1em;
+							font: { size: 0.8em; }
+						}
+						a:hover, a.current {
+							background-color: $textcolor2;
+						}
 					}
-					a:hover, a.current {
-						background-color: $textcolor2;
+					li.pdf {
+						padding-left: 0.5em;
+						a {
+							padding-left: 24px;
+							background: url(/assets/fileicons/pdf.png) no-repeat 0px center;
+							//background: url(/assets/fileicons/pdf.png) no-repeat 95% center;
+						}
+						a:hover {
+							background-color: $textcolor2;
+						}
 					}
 				}
 			}
