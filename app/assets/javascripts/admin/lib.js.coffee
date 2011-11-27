@@ -6,6 +6,7 @@
 
 	loadAncestors = (id, callback) -> rpc 'lib.get_doc_ancestors', [id], (res, err)-> callback res.result
 	loadInfo = (id, callback) -> rpc 'lib.get_doc_info', [id], (res, err)-> callback res.result
+	loadAuthors = (id, callback) -> rpc 'lib.get_doc_authors', [id], (res, err)-> callback res.result
 	loadChildren = (id, callback) -> rpc 'lib.get_doc_children', [id], (res, err)-> callback res.result
 	loadConfsList = (callback) -> rpc 'coms.get_confs_list', [], (res, err)-> callback res.result
 	loadConfPapersList = (id, callback) -> rpc 'coms.get_conf_accepted_papers_list', [id], (res, err)-> callback res.result
@@ -15,6 +16,7 @@
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 	new_doc = (parent, data, callback) -> rpc 'lib.new_doc', [parent, data], (res, err)-> callback res.result
 	saveInfo = (id, info, callback) -> rpc 'lib.set_doc_info', [id, info], (res, err)-> callback res.result
+	saveAuthors = (id, authors, callback) -> rpc 'lib.set_doc_authors', [id, authors], (res, err)-> callback res.result
 
 	DocPath = (-> (div) ->
 		currInfo = null
@@ -52,11 +54,12 @@
 		id = null
 		panel = ((viewBlock, editBlock, showView, showEdit)->
 			div.append($('<h3>').text('Info'))
-			viewBlock = ((me, div, title, subtitle, abstract, editBtn)->
+			viewBlock = ((me, div, title, subtitle, abstract, authors, editBtn)->
 				div = $('<div>')
 				title = $('<span>')
 				subtitle = $('<span>')
 				abstract = $('<span>')
+				authors = $('<span>')
 				editBtn = $('<button>Edit</button>').click () -> showEdit()
 				div
 					.append('<b>Title:</b> ').append(title)
@@ -64,6 +67,8 @@
 					.append('<b>Subtitle:</b> ').append(subtitle)
 					.append('<br>')
 					.append('<b>Abstract:</b> ').append(abstract)
+					.append('<br>')
+					.append('<b>Authors:</b> ').append(authors)
 					.append('<br>')
 					.append(editBtn)
 				me = {
@@ -73,18 +78,97 @@
 							title.text(currInfo.title)
 							subtitle.text(currInfo.subtitle)
 							abstract.text(currInfo.abstract)
+							authors.text( $.map(currInfo.authors, (a) -> a.fname+' '+a.lname).join(', ') )
 							div.show()
 						else div.hide()
 					hide: ->
 						div.hide()
 				}
 			)()
-			editBlock = ((me, div, title, subtitle, abstract, dir, saveBtn, cancelBtn)->
+			editBlock = ((me, div, title, subtitle, abstract, dir, authors, saveBtn, cancelBtn)->
 				div = $('<div>')
 				title = $('<input type="text">').width('100%')
 				subtitle = $('<input type="text">').width('100%')
 				abstract = $('<textarea>').width('100%')
 				dir = $('<input type="checkbox">').width('100%')
+				authors = ((me, lst=[], lst1=[], _show, _save, div, table, tbody, btnNew)->
+					_show = ()->
+						tbody.empty()
+						lst1 = []
+						$.each lst, (n, a) ->
+							((tr, td, fname, lname, pin, btnUp, btnDown, btnDel) ->
+								tr = $('<tr>')
+								td = $('<td>').appendTo tr
+								fname = $('<input type="text">').val(a.fname).appendTo(td)
+								td = $('<td>').appendTo tr
+								lname = $('<input type="text">').val(a.lname).appendTo(td)
+								td = $('<td>').appendTo tr
+								pin = $('<input type="text">').val(a.pin).appendTo(td)
+								td = $('<td>').appendTo tr
+								btnUp = $('<button type="button">&uarr;</button>').appendTo(td)
+								td = $('<td>').appendTo tr
+								btnDown = $('<button type="button">&darr;</button>').appendTo(td)
+								td = $('<td>').appendTo tr
+								btnDel = $('<button type="button">[X]</button>').appendTo(td)
+								btnUp.prop('disabled', true) if n < 1
+								btnDown.prop('disabled', true) if n >= lst.length-1
+								tbody.append tr
+								lst1.push {
+									fname: fname,
+									lname: lname,
+									pin: pin
+								}
+								btnUp.click () -> if(n > 0)
+									((tmp)->
+										_save()
+										tmp = lst[n]
+										lst[n] = lst[n-1]
+										lst[n-1] = tmp
+										_show()
+									)()
+								btnDown.click () -> if(n < lst.length-1)
+									((tmp)->
+										_save()
+										tmp = lst[n]
+										lst[n] = lst[n+1]
+										lst[n+1] = tmp
+										_show()
+									)()
+								btnDel.click () ->
+									lst.splice(n,1)
+									_show()
+							)()
+					_save = ()->
+						lst = $.map lst1, (r)->
+							{
+								fname: r.fname.val(),
+								lname: r.lname.val(),
+								pin: r.pin.val()
+							}
+					div = $('<div>').width('100%')
+					table = $('<table border="1">')
+					tbody = $('<table>')
+					table.append tbody
+					div.append table
+					btnNew = $('<button type="button">Add new author</button>').appendTo(div)
+					btnNew.click () ->
+						lst.push {
+							fname: '',
+							lname: '',
+							pin: ''
+						}
+						_show()
+					me = {
+						div: div,
+						show: (arr)->
+							#lst = currInfo.authors.slice()
+							lst = arr.slice()
+							_show()
+						getData: ->
+							_save()
+							lst.slice()
+					}
+				)()
 				saveBtn = $('<button>Save</button>').click () ->
 					currInfo.title = title.val()
 					currInfo.subtitle = subtitle.val()
@@ -93,6 +177,9 @@
 					#alert(JSON.stringify(currInfo))
 					saveInfo id, currInfo, (result)->
 					#	alert(JSON.stringify result)
+					currInfo.authors = authors.getData()
+					saveAuthors id, currInfo.authors, (result)->
+					#alert JSON.stringify( currInfo.authors )
 					showView()
 				cancelBtn = $('<button>Cancel</button>').click () -> showView()
 				div
@@ -104,6 +191,8 @@
 					.append('<br>')
 					.append('<b>Directory:</b> ').append(dir)
 					.append('<br>')
+					.append('<b>Authors:</b> ').append(authors.div)
+					.append('<br>')
 					.append(saveBtn).append(cancelBtn)
 				me = {
 					div: div
@@ -113,6 +202,7 @@
 							subtitle.val(currInfo.subtitle)
 							abstract.val(currInfo.abstract)
 							if currInfo.dir then dir.attr('checked', 'checked') else dir.removeAttr('checked')
+							authors.show(currInfo.authors)
 							div.show()
 						else div.hide()
 					hide: ->
@@ -132,14 +222,15 @@
 			}
 		)()
 		me = {
-			render: (info) -> 
+			render: (info, authors) -> 
 				currInfo = info
+				currInfo.authors = authors
 				panel.showView()
 				null
 			load: (_id) ->
 				id = _id
 				if id
-					loadInfo id, (info) -> me.render info
+					loadInfo id, (info) -> (loadAuthors id, (authors) -> me.render info, authors)
 					div.show()
 				else
 					div.hide()

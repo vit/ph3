@@ -6,7 +6,10 @@
  .page
   %h2 CAP Journal main page
   .page-body
-   .cover= image_tag 'cap/cap_cover_s2.png', alt: 'Cover'
+   -#.cover= image_tag 'cap/cap_cover_s2.png', alt: 'Cover'
+   -#%img.cover{src: 'assets/cap/cap_cover_s2.png', alt: 'Cover'}
+   .cover
+    %img{src: 'cap/cap_cover_s2.png', alt: 'Cover'}
    %p
     Journal  Cybernetics and Physics (CAP)  is published under umbrella of  the International Physics and Control Society (IPACS).
     The scope of the journal includes all areas related to Cybernetics and Physics.

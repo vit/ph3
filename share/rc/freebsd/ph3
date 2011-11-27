@@ -31,8 +31,10 @@ prs_start()
 #	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph2/unicorn -c unicorn_conf.rb config.ru 2>&1 &
 #	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph2/unicorn -c unicorn_conf.rb config.ru 1>&2 &
 #	/usr/local/rvm/wrappers/ruby-1.9.2-p180@prs4/unicorn -c unicorn_conf.rb config.ru &
+	#RAILS_ENV=production && /usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -c unicorn_conf.rb config.ru &
 	#/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -c unicorn_conf.rb config.ru &
-	bin/unicorn_rails -c unicorn_conf.rb config.ru &
+	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -E production -c unicorn_conf.rb config.ru &
+#	bin/unicorn_rails -c unicorn_conf.rb config.ru &
 }
 prs_stop()
 {

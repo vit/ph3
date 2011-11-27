@@ -12,7 +12,8 @@ development:
                 schema: userschema, cmsmlschema, comsml01, coms01, membership01
         mongo:
                 host: localhost
-                dbname: ph3_dev
+                #dbname: ph3_dev
+                dbname: ph3
 
 test:
 
