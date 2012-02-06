@@ -104,10 +104,12 @@
 				subtitle = $('<input type="text">').width('100%')
 				abstract = $('<textarea>').width('100%')
 				dir = $('<input type="checkbox">').width('100%')
-				authors = ((me, lst=[], lst1=[], _show, _save, div, table, tbody, btnNew)->
+				authors = ((me, lst=[], lst1=[], _show, _save, div, table, tbody, header, btnNew)->
 					_show = ()->
 						tbody.empty()
 						lst1 = []
+						header = $('<tr><th>First name</th><th>Last name</th><th>PIN</th><th></th><th></th><th></th></tr>')
+						tbody.append header
 						$.each lst, (n, a) ->
 							((tr, td, fname, lname, pin, btnUp, btnDown, btnDel) ->
 								tr = $('<tr>')
