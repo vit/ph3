@@ -23,10 +23,23 @@
 		id = null
 		panel = (->
 			renderOne = (v) ->
-				$('<span>').append($('<a href="#">').click( (e)->
-					e.preventDefault()
-					notifier.notify('changed', v._id)
-				).text(v.title)).appendTo(div)
+				#$('<span>').append($('<a href="#">').click( (e)->
+				#	e.preventDefault()
+				#	notifier.notify('changed', v._id)
+				#).text(v.title)).appendTo(div)
+				$('<span>').append(
+					((a) ->
+						#a = $('<a href="#">')
+						a = $('<a>')
+						a.attr('href', '#')
+						a.text(v.title)
+						#alert a
+						a.click (e)->
+							e.preventDefault()
+							notifier.notify('changed', v._id)
+						a
+					)()
+				).appendTo(div)
 			render = (list) ->
 				div.empty()
 				list.unshift {_id: null, title: 'Root'}
@@ -290,10 +303,28 @@
 						list.push({elm: cb, data: v.data})
 						$('<li>').append(cb).append(
 							if(v.onClick)
-								$('<a href="#">').text(v.title).click (e)->
-									e.preventDefault()
-									v.onClick(e)
+								((a) ->
+									#a = $('<a href="#">')
+									a = $('<a>')
+									a.attr('href', '#')
+									a.text(v.title)
+									#alert a
+									a.click (e)->
+										e.preventDefault()
+										v.onClick(e)
+									a
+								)()
+								#$('<span href="#">').text(v.title)
+								#$('<span href="#wwwwww">').text(v.title)
+								#$('<span hhref="http://qqq.com">').text(v.title)
+								#$('<span>').text(v.title)
+								#$('<span>').text(v.title)
+								#$('<a href="#">').text(v.title).click (e)->
+								#$('<a href="#">').text("qqqqq").click (e)->
+								#	e.preventDefault()
+								#	v.onClick(e)
 							else $('<span>').text(v.title)
+							#$('<span>').text(v.title)
 						)
 					)()
 				me.selectAll = -> $.each list, (k,v)-> v.elm.attr("checked","checked")
