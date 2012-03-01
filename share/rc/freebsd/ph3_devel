@@ -1,11 +1,11 @@
 #! /bin/sh
 
-# PROVIDE: ph3
+# PROVIDE: ph3_devel
 # REQUIRE: NETWORK
 # REQUIRE: mongod
 # KEYWORD: shutdown
 
-name=ph3
+name=ph3_devel
 export LANG=ru_RU.UTF-8
 
 . /etc/rc.subr
@@ -21,7 +21,7 @@ export PATH=/usr/local/bin:$PATH
 
 prs_start()
 {
-	cd /root/projects/ph3/
+	cd /root/projects/devel/ph3/
 #	cd /root/projects/alfserver/
 	sleep 2
 #	/usr/local/rvm/wrappers/ruby-1.9.1-p378@ph2/rackup -s thin config.ru >> /var/log/ph2.log 2>&1 &
@@ -33,8 +33,9 @@ prs_start()
 #	/usr/local/rvm/wrappers/ruby-1.9.2-p180@prs4/unicorn -c unicorn_conf.rb config.ru &
 	#RAILS_ENV=production && /usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -c unicorn_conf.rb config.ru &
 	#/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -c unicorn_conf.rb config.ru &
-	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -E production -c unicorn_conf.rb config.ru &
-#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -E development -c unicorn_conf.rb config.ru &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -E production -c unicorn_conf.rb config.ru &
+#	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3/unicorn_rails -E development -c unicorn_conf_devel.rb config.ru &
+	/usr/local/rvm/wrappers/ruby-1.9.2-p180@ph3_devel/unicorn_rails -E development -c unicorn_conf_devel.rb config.ru &
 #	bin/unicorn_rails -c unicorn_conf.rb config.ru &
 }
 prs_stop()
@@ -42,7 +43,7 @@ prs_stop()
 #	/bin/kill -s TERM `ps -ax | grep ph2 | grep rackup | perl -e '<STDIN>=~m/(\d+)/g; print $1'`
 #	/bin/kill -s TERM `ps -ax | grep 'unicorn master' | perl -e '<STDIN>=~m/(\d+)/g; print $1'`
 #	/bin/kill -s TERM `cat /tmp/alfserver.pid`
-	/bin/kill -s TERM `cat /tmp/ph3.pid`
+	/bin/kill -s TERM `cat /tmp/ph3_devel.pid`
 }
 
 run_rc_command "$1"
