@@ -1,8 +1,20 @@
 
 -content_for :page_title, 'Library document'
 
+-#if @doc
+ -add_head_tag 'meta', {name: 'citation_title', content: @doc['title']}
+
+- is_publication = @doc && @doc['title'] && @doc['publication_year'] && @authors && @authors.is_a?(Array) && @authors.size>0
+- if is_publication  
+ - add_head_tag 'meta', {name: 'citation_title', content: @doc['title']}
+ - add_head_tag 'meta', {name: 'citation_publication_date', content: @doc['publication_year']}
+ - @authors.each do |a|
+  -add_head_tag 'meta', {name: 'citation_author', content: a['fname']+' '+a['lname']}
+
 -set_content_for :content do
  .doc_page
+  -#= @meta.inspect
+  -#= @doc.inspect
   -#=@children.inspect
   -#=@ancestors.inspect
   .path
@@ -10,6 +22,10 @@
     %a{href: "doc?id=#{elm['_id']}"}= elm['title']
     \/
   -if @doc
+   -#add_head_tag 'meta', {name: 'citation_title', content: @doc['title']} if is_publication
+   -#2010/5/12
+   -#add_head_tag 'meta', {name: 'citation_publication_date', content: @doc['publication_year']}
+   -#add_head_tag 'meta', {name: 'citation_online_date', content: @doc['']}
    .info
     .title
      %h2= @doc['title']
@@ -19,12 +35,15 @@
      %span= @meta.inspect
     .authors
      %b= @authors.map{|a| a['fname']+' '+a['lname'] }.join(', ')
+     -# @authors.each do |a|
+      -add_head_tag 'meta', {name: 'citation_author', content: a['fname']+' '+a['lname']}
     .abstract
      %span!= nl2br h(@doc['abstract'])
     - if @file_id
      %div
       %b File:
       %a{href: "file?id=#{@file_id}"} download
+      -add_head_tag 'meta', {name: 'citation_pdf_url', content: request.base_url+'/'+"file?id=#{@file_id}"}
   .children
    %ul
     -@children.each do |elm|

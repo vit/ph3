@@ -1,6 +1,9 @@
 !!! Strict
 %html
  %head
+  - get_head_tags.each do |t|
+   -#!= "<#{t[:name]} " + t[:data].to_a.map{|p0, p1| p0}.inject(""){|acc, s| acc+" "+s}
+   != "<#{t[:name]} " + t[:data].to_a.map{|p0, p1| p0.to_s+"="+"\"#{h p1.to_s}\"" }.join(" ") + "/>"
   %title= yield(:page_title) + ' | IPACS'
   = stylesheet_link_tag    "application"
   = javascript_include_tag "application"
