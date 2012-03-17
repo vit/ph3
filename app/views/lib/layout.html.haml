@@ -5,6 +5,9 @@
  .site
   .title
    %h1 IPACS Electronic library
+  -#.search_link
+   %a{href: "search"} Search
+  -#.clear
   -@page_id = content_for :page_id
 
   = yield :content

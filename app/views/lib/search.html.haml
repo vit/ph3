@@ -1,31 +1,23 @@
 
--content_for :page_title, 'Library document'
-
--#if @doc
- -add_head_tag 'meta', {name: 'citation_title', content: @doc['title']}
-
-- is_publication = @doc && @doc['title'] && @doc['publication_year'] && @authors && @authors.is_a?(Array) && @authors.size>0
-- if is_publication  
- - add_head_tag 'meta', {name: 'citation_title', content: @doc['title']}
- - add_head_tag 'meta', {name: 'citation_publication_date', content: @doc['publication_year']}
- - @authors.each do |a|
-  -add_head_tag 'meta', {name: 'citation_author', content: a['fname']+' '+a['lname']}
+-content_for :page_title, 'Library search results'
 
 -set_content_for :content do
+ -#= @docs.inspect
  .doc_page
+  .search
+   %form
+    %input{type: 'text', name: 'q', value: (h @query_orig),style: 'width: 50%'}
+    -#%input{type: 'text', name: 'q', value: (h @query),style: 'width: 50%'}
+    %input{type: 'submit', value: 'Search'}
   -#= @meta.inspect
   -#= @doc.inspect
   -#=@children.inspect
   -#=@ancestors.inspect
-  .path
+  -#.path
    -@ancestors.each do |elm|
     %a{href: "doc?id=#{elm['_id']}"}= elm['title']
     \/
-  .search_link
-   %a{href: "search"} Search
-  -#.clear
-  %span.clear
-  -if @doc
+  -#if @doc
    -#add_head_tag 'meta', {name: 'citation_title', content: @doc['title']} if is_publication
    -#2010/5/12
    -#add_head_tag 'meta', {name: 'citation_publication_date', content: @doc['publication_year']}
@@ -50,12 +42,14 @@
       -add_head_tag 'meta', {name: 'citation_pdf_url', content: request.base_url+'/'+"file?id=#{@file_id}"}
   .children
    %ul
-    -@children.each do |elm|
+    -@docs.each do |elm|
      %li
       -if elm['authors']
        .authors
         %span= elm['authors'].inject([]){|acc, a| acc << a['fname']+' '+a['lname']; acc}.join(', ')
       .title
+       -#= elm['_id']
+       -#= elm['info']['title']
        %a{href: "doc?id=#{elm['_id']}"}= elm['info']['title']
       -if elm['info']['subtitle']
        .subtitle
