@@ -49,6 +49,7 @@ namespace :util_lib do
 #				Physcon::App.model.sphinx.query "replace into rt (id, title, content) values (%s, '%s', '%s')", id, title, abstract
 				Physcon::App.model.sphinx.query "replace into rt (id, title, content) values (%s, '%s', '%s')", id, title, abstract+"\n"+authors
 				Physcon::App.model.sphinx.query "FLUSH RTINDEX rt"
+				sleep(0.5)
 			end
 		}
 #=end
