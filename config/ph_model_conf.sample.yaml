@@ -8,10 +8,12 @@ development:
                         dbname: db00060892
                         host: localhost
                         user: db00060892
-                        password: rjulfytjn[elfbytjnlj,hf
+                        #password: rjulfytjn[elfbytjnlj,hf
+                        password: pass
                 schema: userschema, cmsmlschema, comsml01, coms01, membership01
         mongo:
                 host: localhost
+                #host: s2.physcon.ru
                 #dbname: ph3_dev
                 dbname: ph3
         sphinx:
@@ -27,10 +29,12 @@ production:
                         dbname: db00060892
                         host: localhost
                         user: db00060892
-                        password: rjulfytjn[elfbytjnlj,hf
+                        #password: rjulfytjn[elfbytjnlj,hf
+                        password: pass
                 schema: userschema, cmsmlschema, comsml01, coms01, membership01
         mongo:
                 host: localhost
+                #host: s2.physcon.ru
                 dbname: ph3
         sphinx:
                 table: rt
