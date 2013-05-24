@@ -15,3 +15,5 @@ bin/
 *.swn
 *.core
 
+config/ph_model_conf.yaml
+
