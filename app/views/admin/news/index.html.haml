@@ -1,0 +1,38 @@
+
+-content_for :page_title, 'News admin'
+-content_for :page_id, 'news'
+
+-set_content_for :content do
+ .page
+  %h2 News admin
+  =# link_to 'New item', new_news_item_path
+  = link_to 'New item', new_admin_news_item_path
+  =# link_to 'New item', new_news_path
+  %table{border: 1}
+   %tr
+    %th{rowspan: 2}
+     Id
+     %br
+     Time
+    %th Title
+   %tr
+    %th Text
+   -@data.each do |row|
+    %tr
+     %td{rowspan: 2}
+      = row['newsid']
+      %br
+      = DateTime.parse(row['addtime']).strftime('%d.%m.%Y')
+      %br
+      =#link_to 'Show', admin_news_item_path(row['newsid'])
+      =link_to 'Edit', edit_admin_news_item_path(row['newsid'])
+      =#link_to 'Delete', admin_news_item_path(row['newsid']), confirm: 'Are you sure?', method: :delete
+      =#button_to 'Delete', admin_news_item_path(row['newsid']), confirm: 'Are you sure?', method: :delete
+     %td= row['title']
+    %tr
+     %td= row['content']
+
+
+-render :file => 'admin/layout'
+
+

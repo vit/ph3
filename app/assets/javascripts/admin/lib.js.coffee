@@ -11,6 +11,7 @@
 	loadConfsList = (callback) -> rpc 'coms.get_confs_list', [], (res, err)-> callback res.result
 	loadConfPapersList = (id, callback) -> rpc 'coms.get_conf_accepted_papers_list', [id], (res, err)-> callback res.result
 	importConfPapers = (id, list, callback) -> rpc 'lib.import_docs_from_coms', [id, list], (res, err)-> callback res.result
+	updateImportedFiles = (id, list, callback) -> rpc 'lib.update_imported_files', [id, list], (res, err)-> callback res.result
 	removeDocs = (list, callback) -> rpc 'lib.remove_docs', [list], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
 	#new_doc = (parent, dir, data, callback) -> rpc 'lib.new_doc', [parent, dir, data], (res, err)-> callback res.result
@@ -408,9 +409,17 @@
 					.append(div)
 					.append(
 						$('<button>Delete checked</button>').click () ->
+							if confirm('Are you sure you want to DELETE selected documents?')
+								alert(JSON.stringify cbList.getSelected())
+								removeDocs cbList.getSelected(), (result)->
+									notifier.notify('changed', id)
+					)
+					.append(
+						$('<button>Update files for checked</button>').click () ->
 							alert(JSON.stringify cbList.getSelected())
-							removeDocs cbList.getSelected(), (result)->
+							updateImportedFiles id, cbList.getSelected(), (result)->
 								notifier.notify('changed', id)
+								#console.log(result)
 					)
 				div.css('overflow', 'scroll').css('height', '250pt')
 				{

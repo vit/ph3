@@ -1,0 +1,13 @@
+
+-content_for :page_title, 'Show news item'
+-content_for :page_id, 'news'
+
+-set_content_for :content do
+ .page
+  %h2 Show news item
+  =link_to 'Back', admin_news_items_path
+
+
+-render :file => 'admin/layout'
+
+

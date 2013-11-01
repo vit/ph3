@@ -16,4 +16,5 @@ bin/
 *.core
 
 config/ph_model_conf.yaml
+public/assets
 

@@ -1,0 +1,28 @@
+
+-content_for :page_title, 'Edit news item'
+-content_for :page_id, 'news'
+
+-set_content_for :content do
+ .page
+  %h2 Edit news item
+  =#@data.inspect
+  =link_to 'Back', admin_news_items_path
+  = form_for :news, url: admin_news_item_path(@id), method: :put do |f|
+   %p
+    = f.label :title
+    %br
+    = f.text_field :title, size: 120, value: @data['title']
+   %p
+    = f.label :content
+    %br
+    = f.text_area :content, :size => "120x20", value: @data['content']
+   %p
+    = f.submit
+
+  %hr
+  =button_to 'Delete', admin_news_item_path(@id), confirm: 'Are you sure?', method: :delete, onclick: "if(!confirm('Are you sure?')) return false"
+
+
+-render :file => 'admin/layout'
+
+

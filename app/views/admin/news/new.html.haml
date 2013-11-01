@@ -1,0 +1,25 @@
+
+-content_for :page_title, 'New news item'
+-content_for :page_id, 'news'
+
+-set_content_for :content do
+ .page
+  %h2 New news item
+  =link_to 'Back', admin_news_items_path
+  = form_for :news, url: admin_news_items_path do |f|
+   %p
+    = f.label :title
+    %br
+    = f.text_field :title, size: 120
+   %p
+    = f.label :content
+    %br
+    = f.text_area :content, :size => "120x20"
+   %p
+    = f.submit
+
+
+
+-render :file => 'admin/layout'
+
+

@@ -16,6 +16,8 @@
      %li To promote interactions among researchers interested in fields related to both physics and control;
      %li To facilitate dissemination of information on current activities and results in areas of common interests;
      %li To enhance the visibility and worldwide recognition of physics and control related research and its vast potential applications.
+   .logo
+    %img{src: 'ipacs/flowerIPACS_s.png', alt: 'Logo', style: 'float: left;'}
    %p
     The Society achieves these objectives by organizing or co-organizing conferences, seminars, workshops on various topics related to physics and control, by establishing websites containing current information, archive of the Society proceedings, forums for information exchange, by launching new academic journals. It also rewards researchers and educators who made outstanding contributions in the concerned research areas.
    %p
@@ -50,59 +52,6 @@
     %a{href: 'http://www.ipme.ru/'}> (IPME RAS)
     , Saint Petersburg, Russia.
 
--#set_content_for :content do
- .page
-  -#%h2 IPACS Main page
-  .page-body
-   .main-page
-    .row
-     .block
-      .title
-       %a{href: 'http://physcon.ru/news'}
-        %b Latest News
-      .body
-       .list
-        -@news_list.each do |row|
-         .item
-          %a{href: "http://physcon.ru/news\#news_#{row['newsid']}"}
-           &= row['title']
-     .block
-      .title
-       %a{href: 'http://coms.physcon.ru'}
-        %b Conference Management System
-        -#%b CoMS
-      .body
-       -#.subtitle Open Conferences
-       -if @open_conf_list.length > 0
-        .list
-         -@open_conf_list.each do |row|
-          .item
-           %a{href: "http://coms.physcon.ru/conf/#{row['contid']}/"}
-            &= row['title']
-       -else
-        No open conferences
-     .block
-      .title
-       %a{href: 'http://cap.physcon.ru'}
-        %b CAP Journal
-      .body
-       .list
-        .item
-         %a{href: 'http://cap.physcon.ru/submit'} How to Submit
-        .item
-         %a{href: 'http://cap.physcon.ru/read'} How to Read
-     .block
-      .title
-       %a{href: 'http://lib.physcon.ru'}
-        %b Electronic Library
-      -#.body
-       .list
-        .item
-         %a{href: 'http://lib.physcon.ru/?item=1'} Open Library
-        .item
-         %a{href: 'http://lib.physcon.ru/?item=2'} Closed Library
-       -#.subtitle Open Conferences
-     -#.clear
 
 -render :file => 'ipacs/layout'
 

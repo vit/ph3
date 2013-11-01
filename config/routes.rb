@@ -81,8 +81,20 @@ Ph3::Application.routes.draw do
   match "/:action" => 'lib', :constraints => {:host => /^(lib.*|lib2.*)/} 
 
   root :to => 'admin#index', :constraints => {:host => /^(admin.*)/}
-  match "/:action" => 'admin', :constraints => {:host => /^(admin.*)/} 
-  match "/lib/:action" => 'admin_lib', :constraints => {:host => /^(admin.*)/} 
+#  match "/:action" => 'admin', :constraints => {:host => /^(admin.*)/} 
+#  match "/lib/:action" => 'admin_lib', :constraints => {:host => /^(admin.*)/} 
+#  match "/news/:action" => 'admin_news', :constraints => {:host => /^(admin.*)/} 
+
+constraints :subdomain => "admin" do
+  #scope :module => "admin", :as => "admin" do
+  scope :module => "admin", as: 'admin' do
+    match '/lib/' => 'lib#index'
+#    match '/news/' => 'news#index'
+#    resources :news
+    resources :news, :as => :news_items
+  end
+end
+
 
 #	match  :constraints => {:host => /^ipacs.*/} do
 #		match "/t" => 'home#index'
