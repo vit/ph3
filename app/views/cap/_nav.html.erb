@@ -6,8 +6,10 @@
 	#	{id: 'sections', text: 'Sections', url: '/sections'},
 		{id: 'editorial', text: 'Editorial Board', url: '/editorial'},
 		{id: 'forauthors', text: 'Author Information', url: '/forauthors'},
-		{id: 'submit', text: 'Submit Online', url: '/submit'},
-		{id: 'read', text: 'Read Online', url: '/read'},
+	#	{id: 'submit', text: 'Submit Online', url: '/submit'},
+	#	{id: 'read', text: 'Read Online', url: '/read'},
+		{id: 'submit', text: 'Submit Online', url: 'http://coms.physcon.ru/conf/12/ ', external: true},
+		{id: 'read', text: 'Read Online', url: 'http://lib.physcon.ru/doc?id=29e59dce4f11', external: true},
 		{id: 'contacts', text: 'Contacts', url: '/contacts'}
 	]
 %>
@@ -15,10 +17,14 @@
 <div class='nav'>
 	<ul>
 <% topnav.each do |elm| %>
-	<% if elm[:id]==@page_id %>
-		<li><a href="<%= elm[:url]%>" class="current"><strong><%= elm[:text] %></strong></a></li>
+	<% if elm[:external] %>
+		<li><a href="<%= elm[:url]%>" target='_blank' >&rarr;&nbsp;<%= elm[:text] %></a></li>
 	<% else %>
-		<li><a href="<%= elm[:url]%>"><%= elm[:text] %></a></li>
+		<% if elm[:id]==@page_id %>
+			<li><a href="<%= elm[:url]%>" class="current"><strong><%= elm[:text] %></strong></a></li>
+		<% else %>
+			<li><a href="<%= elm[:url]%>"><%= elm[:text] %></a></li>
+		<% end %>
 	<% end %>
 <% end %>
 	</ul>

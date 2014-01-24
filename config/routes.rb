@@ -74,8 +74,14 @@ Ph3::Application.routes.draw do
   root :to => 'ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/}
   match "/:action" => 'ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
 
-  root :to => 'cap#index', :constraints => {:host => /^cap.*/}
-  match "/:action" => 'cap', :constraints => {:host => /^cap.*/} 
+constraints :subdomain => "cap" do
+	match '/read' => redirect('http://lib.physcon.ru/doc?id=29e59dce4f11')
+	match '/submit' => redirect('http://coms.physcon.ru/conf/12/')
+	root :to => 'cap#index'
+	match "/:action" => 'cap'
+end
+#  root :to => 'cap#index', :constraints => {:host => /^cap.*/}
+#  match "/:action" => 'cap', :constraints => {:host => /^cap.*/} 
 
   root :to => 'lib#index', :constraints => {:host => /^(lib.*|lib2.*)/}
   match "/:action" => 'lib', :constraints => {:host => /^(lib.*|lib2.*)/} 
