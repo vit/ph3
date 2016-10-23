@@ -71,9 +71,17 @@ Ph3::Application.routes.draw do
 #  match "/ipacs/:action.html" => 'old_ipacs#any', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
   match "/ipacs/:name.html" => 'old_ipacs#any', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
 
-  root :to => 'ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/}
-  match "/:action" => 'ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+  #root :to => 'ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/}
+  #match "/:action" => 'ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru)/} 
+  root :to => 'ipacs#index', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru|s4.physcon.ru)/}
+  match "/:action" => 'ipacs', :constraints => {:host => /^(ipacs.*|www2.*|www.*|physcon.ru|s4.physcon.ru)/} 
 
+constraints :subdomain => "cap.s4" do
+	match '/read' => redirect('http://lib.physcon.ru/doc?id=29e59dce4f11')
+	match '/submit' => redirect('http://coms.physcon.ru/conf/12/')
+	root :to => 'cap#index'
+	match "/:action" => 'cap'
+end
 constraints :subdomain => "cap" do
 	match '/read' => redirect('http://lib.physcon.ru/doc?id=29e59dce4f11')
 	match '/submit' => redirect('http://coms.physcon.ru/conf/12/')
@@ -83,13 +91,23 @@ end
 #  root :to => 'cap#index', :constraints => {:host => /^cap.*/}
 #  match "/:action" => 'cap', :constraints => {:host => /^cap.*/} 
 
-  root :to => 'lib#index', :constraints => {:host => /^(lib.*|lib2.*)/}
-  match "/:action" => 'lib', :constraints => {:host => /^(lib.*|lib2.*)/} 
+  root :to => 'lib#index', :constraints => {:host => /^(lib.*|lib2.*|lib.s4.*)/}
+  match "/:action" => 'lib', :constraints => {:host => /^(lib.*|lib2.*|lib.s4.*)/} 
 
   root :to => 'admin#index', :constraints => {:host => /^(admin.*)/}
 #  match "/:action" => 'admin', :constraints => {:host => /^(admin.*)/} 
 #  match "/lib/:action" => 'admin_lib', :constraints => {:host => /^(admin.*)/} 
 #  match "/news/:action" => 'admin_news', :constraints => {:host => /^(admin.*)/} 
+
+constraints :subdomain => "admin2" do
+  #scope :module => "admin", :as => "admin" do
+  scope :module => "admin", as: 'admin' do
+    match '/lib/' => 'lib#index'
+#    match '/news/' => 'news#index'
+#    resources :news
+    resources :news, :as => :news_items
+  end
+end
 
 constraints :subdomain => "admin" do
   #scope :module => "admin", :as => "admin" do
