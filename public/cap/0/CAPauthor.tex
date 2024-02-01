@@ -1,0 +1,215 @@
+
+%%% use two columns and PHYSCON 2011 format
+\documentclass[twocolumn]{CAP-journal}
+
+
+\usepackage{graphicx,array}
+\usepackage{amssymb,amsmath}
+
+% If you want to use BibTex, then uncomment the following command:
+%\usepackage[dcucite]{harvard}
+
+
+\title{INSTRUCTIONS FOR THE PREPARATION AND SUBMISSION OF PAPERS \\
+FOR Cybernetics And Physics USING \LaTeX2e\ }
+
+%% Use the \author command to put authors horizontally on one row.
+%% Separate the authors with the \and command. Put as may authors as possible on one row.
+%% If necessary, then use a second \author command as shown below, which will put additional authors on another row.
+
+%%% first two or three authors
+\author{ \twlsfb Firstname1 Familyname1
+    \affiliation{
+      Department1\\
+      University1\\
+      Country1\\
+      name1@university1.country1
+    }
+    \and \twlsfb Firstname2 Familyname2
+    \affiliation{
+      Department2\\
+      University2\\
+      Country2\\
+      name2@university2.country2
+    }
+}
+
+%%% another two or three authors, uncomment if necessary
+%\author{ \twlsfb C. Third
+%    \affiliation{
+%      Institute\\
+%      University\\
+%      Country\\
+%      a.name@university.country
+%    }
+%    \and \twlsfb D. Fourth
+%    \affiliation{
+%      Institute \\
+%      University\\
+%      Country\\
+%      anothername@university.country
+%    }
+%    \and \twlsfb E. Fifth
+%    \affiliation{
+%      Institute \\
+%      University\\
+%      Country\\
+%      fifth@university.country
+%    }
+%}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+This article illustrates the preparation of a paper for Cybernetics And Physics (CAP) journal
+using \LaTeX2e. The \LaTeX\ class \verb+CAP-journal.cls+ and
+template \verb+CAPauthor.tex+ that create this article are
+available on http://cap.physcon.ru. You should
+only modify the \verb+CAPauthor.tex+ file and not modify \LaTeX\
+class \verb+CAP-journal.cls+ while preparing your CAP paper.
+%These files come with no guarantee and might contain bugs. Still, they
+%may provide the user some help in preparing a paper for the PHYSCON~2011 Conference.
+\end{abstract}
+
+
+\begin{keywords}
+ No more than six key words must be given.
+\end{keywords}
+
+
+\section{Introduction}
+Your paper for the CAP journal  must be prepared in
+\textbf{English}. To ensure that your paper will be reproduced
+clearly and in the proper size and form, please observe the
+following instructions. In addition to length and format
+restrictions given below, all papers will be reviewed
+% at least by two independent reviewers
+and must meet technical standards.
+
+
+\section{Manuscripts}
+It is advised to put some text between a section heading and a subsection heading.
+
+\subsection{Organization}
+Your paper should begin with an abstract, followed by key words, and then an introduction. At the end, it should
+feature a conclusion and a list of references. Acknowledgements (if any) may precede the references.
+
+\subsection{Paper length and types}
+The length of the title of your paper should not exceed two lines.
+The maximum length of your abstract is to be 200 words. Three paper types are admitted: survey,
+regular and brief paper.  The length of a regular paper,
+including figures and tables, should not exceed \textbf{twelve (12) two-column pages.}
+ The length of a brief paper
+%including figures and tables,
+ should be \textbf{4-6 two-column pages.} The length of survey paper has no restriction.
+ However, the authors are advised to contact the Editorial Board before writing a survey paper.
+%(for final paper this number may be changed).
+The length of the paper should be modified if more than about two thirds of the last page remains empty.
+
+\subsection{Layout}
+The layout of the paper is taken care for by the
+ \verb+CAP-journal.cls+ class file and template \verb+CAPauthor.tex+.
+%Please check whether the PDF file gives the desired result.
+
+\subsection{Symbols}
+Symbols and acronyms should be defined the first time they appear. Use the International System (SI) of units.
+
+\subsection{Page Numbering}
+Do not number pages. 
+This should be taken care for by the \verb+CAP-journal.cls+ class file.
+
+
+\section{Illustrations}
+For the online version of the journal both color and black-and-white drawings, tables and photographs are acceptable. Please
+check whether they are still legible when printed in black-and-white (for printed version of the journal). Your illustrations must be placed within the \verb+figure+
+environment, accompanied by captions and inserted in the text near the place where they are mentioned. Use the same or
+similar font sizes in your illustrations as in the manuscript. Check whether the smallest lettering, such as
+subscripts, is still legible. Captions should be made with the \verb+\caption+ command and should explain illustrations
+without a further reading of the paper text.
+\begin{figure}[t]
+\begin{center}
+\setlength{\unitlength}{0.012500in}%
+\begin{picture}(115,35)(255,545)
+\thicklines \put(255,545){\framebox(115,35){}} \put(275,560){Beautiful Figure}
+\end{picture}
+\end{center}
+\caption{An example figure.} \label{figurelabel}
+\end{figure}
+
+
+\section{Equations}
+All equations should be centered. The equations that are referred to should be numbered. Use the \verb+equation+ environment, like the example given below.
+\begin{equation}
+ \left.\begin{array}{l}
+  \nabla \times E = -\frac{\partial B}{\partial t}\\
+  \nabla \times H = J + \frac{\partial D}{\partial t}\\
+ \end{array}\right\}
+\end{equation}
+
+
+\section{Bibliography}
+List all bibliographical references at the end of the paper in the
+manner shown (listing in alphabetic order with respect to last
+name of first author). Refer to them in the text as follows:
+\cite{Wang} and~\cite{Paul,Sato}. If you want to use BibTeX, then
+follow the instructions in \verb+CAPauthor.tex+.
+
+\section{Compilation}
+It might occur that the paper size is incorrect when compiling the
+dvi-file to a pdf-file (the banner falls partly off the page). If
+this problem occurs, then compile the \verb+CAPauthos.dvi+ file
+with DVIPS using the following options
+
+\verb+dvips -t a4 -P pdf physcon+ and subsequently compile to PDF.
+Alternatively, you can add the options \verb+-sPAPERSIZE=a4+ to
+the ps2pdf command.
+
+
+
+\section{Paper Submission}
+Your paper should uploaded though Submission site
+http://cap.physcon.ru \textbf{in PDF format}
+ %by \textbf{January 31, 2011}.
+  Faxed and emailed submissions will not be accepted. To
+maintain the same look when viewing or printing your paper on
+another machine, you should embed all fonts used in the PDF file.
+When creating a PDF file, click $<$Properties$>$, $<$Adobe PDF
+Setting$>$, $<$Job Option Edit$>$ and then $<$Embed All
+Fonts$>$.\textbf{The size of the PDF file is not allowed to exceed
+2.0 MB.} Upon acceptance of the paper you may be requested to submit 
+the source files too.
+
+
+\section{Conclusion}
+A carefully prepared manuscript that is acceptable without modification will make a better presentation of your work
+and spare us unnecessary delay in editing the papers.
+\section*{Acknowledgements}
+This template was updated from the template prepared for ENOC
+2005, Eindhoven by Remco I. Leine, Center of Mechanics IMES, ETH.
+Modified  for CAP journal based on experience of Physcon2005-Physcon2011 conferences.
+\begin{thebibliography}{}
+
+\bibitem[Paul, 1992]{Paul} Paul, C.~R. (1992). {\em Introduction to Electromagnetic Compatibility}. Wiley-Intersciences. New~York.
+
+\bibitem[Sato, 1989]{Sato} Sato, R. (1989). EMC - The past, present and future. In {\em Proc. Int. Symp. on Electromagn. Compat.} Nagoya, Japan, Sept. 8-10. pp.~1--9.
+
+\bibitem[Wang, Sasabe and Fujiwara, 2002]{Wang} Wang, J., Sasabe, K. and Fujiwara, O. (2002)  A simple method for predicting common-mode radiation from a cable attached to a conducting enclosure. {\em \mbox{IEICE} Trans. Commun.}, \textbf{E85-B}(7), pp.~1360--1367.
+
+\end{thebibliography}
+%% If you want to use Bibtex, then remove the thebibliography environment above,
+%% and uncomment the \bibliography command below as well as \usepackage[dcucite]{harvard} at the beginning of the document.
+%\bibliography{physconref}
+\bibliographystyle{physcon}
+
+
+\appendix       %%% starting appendix, remove if no appendix exists
+\section*{Appendix A\; Head of an Appendix}
+Avoid using appendices.
+
+
+\end{document}
