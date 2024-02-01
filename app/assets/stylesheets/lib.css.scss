@@ -69,6 +69,7 @@ body.lib {
 						text-align: center;
 						width: 49%;
 						float: left;
+						margin-bottom: 20px;
 						> .block {
 							width: auto;
 							margin: auto;
@@ -76,6 +77,9 @@ body.lib {
 							.link { font-size: 1.2em; }
 							.info { font-size: 0.8em; }
 						}
+					}
+					> .wrap-wide {
+						width: 99%;
 					}
 				}
 				> .text_after {
